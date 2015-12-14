@@ -1,0 +1,108 @@
+<form class="form-horizontal">
+<fieldset>
+<!-- Form Name -->
+<legend>Form Name</legend>
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Name</label>  
+  <div class="col-md-4">
+  <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Sujoy Ghosal" class="form-control input-md" required="">
+  <span class="help-block">Full Name</span> 
+  <span style="color:red" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+  <span ng-show="myForm.name.$error.required"><error/>Name is required.</span>
+      </span> 
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="email">Email</label>  
+  <div class="col-md-4">
+  <input id="email" name="email" type="text" ng-model="offer.email" placeholder="gsujoy@yahoo.com" class="form-control input-md" required="">
+  <span class="help-block">Email address</span>
+  <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+  <span ng-show="myForm.email.$error.required"><error/>Email is required.</span>
+      <span ng-show="myForm.email.$error.email"><error/>Invalid email address.</span>
+      </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Mobile">Phone</label>  
+  <div class="col-md-4">
+  <input id="Mobile" name="phone" type="text" ng-model="offer.phone" ng-minlength="10" ng-maxlength="15"  placeholder="1234567890" class="form-control input-md" required="">
+  <span class="help-block">Mobile</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="city">City</label>  
+  <div class="col-md-4">
+  <input id="city" name="city" type="text" ng-model="offer.city" ng-minlength="2" placeholder="Kolkata" class="form-control input-md" required="">
+  <span class="help-block">City Name</span>
+  <span style="color:red" ng-show="myForm.city.$dirty && myForm.city.$invalid">
+  <span ng-show="myForm.city.$error.required"><error/>City is a required field.</span>
+      </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="from">From</label>  
+  <div class="col-md-4">
+  <input id="from" name="from" type="text" ng-model="offer.from" ng-minlength="2" placeholder="Gariahat" class="form-control input-md" required="">
+  <span class="help-block">Starting Place</span>
+  <span style="color:red" ng-show="myForm.from.$dirty && myForm.from.$invalid">
+  <span ng-show="myForm.from.$error.required"><error/>From is required.</span>
+      </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="to">To</label>  
+  <div class="col-md-4">
+  <input id="to" name="to" type="text" ng-model="offer.to" ng-minlength="2" placeholder="Newtown" class="form-control input-md" required="">
+  <span class="help-block">Destination</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Via">Via</label>  
+  <div class="col-md-4">
+  <input id="Via" name="Via" type="text" ng-model="offer.via" ng-minlength="4" placeholder="Science City, Salt Lake" class="form-control input-md" required="">
+  <span class="help-block">Via Places on Route</span>  
+  </div>
+</div>
+
+<!-- Button Drop Down -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="number">Number of Passengers</label>
+  <div class="col-md-4">
+    <div class="input-group">
+      <input id="number" name="number" class="form-control" placeholder="2" type="text" required="">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          0
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">6</a></li>
+          <li><a href="#">7</a></li>
+          <li><a href="#">8</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</fieldset>
+</form>
