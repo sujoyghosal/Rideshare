@@ -8,7 +8,7 @@ app.config(['$routeProvider',
       }).
       when('/home', {
         templateUrl: 'mainmenu.html',
-        controller: 'RidesCtrl'
+        controller: 'NavBarCtrl'
       }).
 
       when('/register', {
@@ -45,6 +45,7 @@ app.service('UserService', function () {
   };
 });
 app.controller('mainController', function () { });
+app.controller('NavBarCtrl', function () { });
 app.controller('OfferRideCtrl', function ($scope, $http) {
   $scope.spinner = false;
   var today = new Date().toISOString().slice(0, 10);
@@ -352,7 +353,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
       } else {
         alert("Id Found");
         $scope.loginResult = response.data[0].username;
-        $location.path("/getride");
+        $location.path("/home");
         UserService.setLoggedIn(login.email);
         return;
       }
@@ -383,13 +384,13 @@ $scope.spinner = true;
       if (angular.isObject(response) && response.data.toString() === "CREATED") {
         alert("Account Created with id " + user.email);
         UserService.setLoggedIn(user.fullname);
-        $location.path("/getride");
+        $location.path("/home");
         return;
       } else {
         $scope.result = response;
         alert("Email Id Exists..");
         UserService.setLoggedIn(user.fullname);
-        $location.path("/getride");
+        $location.path("/home");
         return;
       }
     }, function errorCallback(error) {
