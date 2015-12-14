@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <link rel="stylesheet" type="text/css" href="css/cpstylesheet.css">
   <link rel="stylesheet" href="css/rating.css">
@@ -8,65 +9,72 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-<script src="js/myappangular.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+  <script src="js/myappangular.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <body>
   <center>
-	<h1/>MY ACCEPTED RIDES
-  <div ng-app="myApp" ng-controller="RidesCtrl">
-    <button class="btn btn-primary btn-md" ng-click="GetMyAcceptedRides('login@wipro.com')">RIDES I HAVE ACCEPTED</button>
-    <br>
-    <p>
-      <p/><b/>{{found}}
-      <label ng-show="allrides">Sort By:
-      <select name="sort" ng-model="data.sortby">
-      <option value="offeredby">Name</option>
-      <option value="phone_number">Phone</option>
-      <option value="time">Start Time</option>
-      <option value="from_place">From</option>
-      <option value="to_place">To</option>
-      <option value="status">Status</option>
-      <option value="currentcount">Filled</option>
-    </select>
+    <h1/>MY ACCEPTED RIDES
+    <div ng-app="myApp" ng-controller="RidesCtrl">
+      <button class="btn btn-primary btn-md" ng-click="GetMyAcceptedRides('login@wipro.com')">RIDES I HAVE ACCEPTED</button>
+      <br>
+      <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 
-      <label ng-show="allrides">Search in Rides: <input ng-model="searchText"></label>
-      <table ng-show="allrides">
-        <thead>
- <tr>
-            <th>Number</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Start Time</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Via</th>
-            <th>Status</th>
-            <th>Filled</th>
-            <th ng-hide="true">UUID</th>
-            <th>Cancel Ride</th>              
-          </tr>
-        </thead>
-        <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
-          <td>{{$index + 1}}</td>
-          <td>{{row._data.offeredby}}</td>
-          <td>{{row._data.phone_number}}</td>
-          <td>{{row._data.time}}</td>
-          <td>{{row._data.from_place}}</td>
-          <td>{{row._data.to_place}}</td>
-          <td>{{row._data.via}}</td>
-          <td>{{row._data.status}}</td>
-          <td ng-controller="FundooCtrl"><div fundoo-rating rating-value="row._data.currentcount" max="row._data.maxcount" readonly="true"></div>({{row._data.currentcount + ' of ' + row._data.maxcount}})</td>
-          <td ng-hide="true">{{row._data.uuid}}</td>
-          <td ng-show="cancel">
-            <button class="btn btn-primary btn-md" ng-click="CancelRide(row._data,true)">Cancel Ride</button>
-          </td>
-        </tr>
-      </table>
-    </p>
-  </div>
+      <p>
+        <p/><b/>{{found}}
+        <label ng-show="allrides">Sort By:
+          <select name="sort" ng-model="data.sortby">
+            <option value="offeredby">Name</option>
+            <option value="phone_number">Phone</option>
+            <option value="time">Start Time</option>
+            <option value="from_place">From</option>
+            <option value="to_place">To</option>
+            <option value="status">Status</option>
+            <option value="currentcount">Filled</option>
+          </select>
+
+          <label ng-show="allrides">Search in Rides:
+            <input ng-model="searchText">
+          </label>
+          <table ng-show="allrides">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Start Time</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Via</th>
+                <th>Status</th>
+                <th>Filled</th>
+                <th ng-hide="true">UUID</th>
+                <th>Cancel Ride</th>
+              </tr>
+            </thead>
+            <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
+              <td>{{$index + 1}}</td>
+              <td>{{row._data.offeredby}}</td>
+              <td>{{row._data.phone_number}}</td>
+              <td>{{row._data.time}}</td>
+              <td>{{row._data.from_place}}</td>
+              <td>{{row._data.to_place}}</td>
+              <td>{{row._data.via}}</td>
+              <td>{{row._data.status}}</td>
+              <td ng-controller="FundooCtrl">
+                <div fundoo-rating rating-value="row._data.currentcount" max="row._data.maxcount" readonly="true"></div>({{row._data.currentcount + ' of ' + row._data.maxcount}})</td>
+              <td ng-hide="true">{{row._data.uuid}}</td>
+              <td ng-show="cancel">
+                <button class="btn btn-primary btn-md" ng-click="CancelRide(row._data,true)">Cancel Ride</button>
+              </td>
+            </tr>
+          </table>
+      </p>
+    </div>
   </center>
-  </body>
+</body>
 
 </html>

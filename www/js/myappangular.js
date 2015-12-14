@@ -19,6 +19,10 @@ app.config(['$routeProvider',
         templateUrl: 'GetRide.html',
         controller: 'RidesCtrl'
       }).
+      when('/offerride', {
+        templateUrl: 'OfferARide.html',
+        controller: 'OfferRideCtrl'
+      }).
       otherwise({
         redirectTo: '/login'
       });
@@ -42,6 +46,7 @@ app.service('UserService', function () {
 });
 app.controller('mainController', function () { });
 app.controller('OfferRideCtrl', function ($scope, $http) {
+  $scope.spinner = false;
   var today = new Date().toISOString().slice(0, 10);
   $scope.today = {
     value: today
@@ -50,6 +55,7 @@ app.controller('OfferRideCtrl', function ($scope, $http) {
     value: new Date(2015, 12, 31, 14, 57)
   };
   $scope.SendOffer = function (offer) {
+    $scope.spinner = true;
     var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
       + offer.email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
       + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
@@ -59,19 +65,22 @@ app.controller('OfferRideCtrl', function ($scope, $http) {
       url: sendURL
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
-      // when the response is available           
+      // when the response is available         
+      $scope.spinner = false;  
       $scope.status = response.statusText;
       alert("Offer " + response.statusText);
 
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.status = error.statusText;
     });
   };
 });
 
 app.controller('RidesCtrl', function ($scope, $http, UserService) {
+  $scope.spinner = false;
   $scope.allrides = false;
   $scope.cityRides = '';
   $scope.cancel = false;
@@ -82,7 +91,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
 
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
-
+    $scope.spinner = true;
     if (!paramname || !paramvalue)
       return;
     param_name = paramname.trim();
@@ -96,7 +105,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
-                  
+      $scope.spinner = false;
       $scope.cityRides = response.data;
       // $scope.found  = "Active ride offers for " + param_name;
       $scope.allrides = true;
@@ -104,6 +113,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.found = "Could not submit acceptance. " + error;
       $scope.allrides = false;
     });
@@ -112,7 +122,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.AcceptRide = function (row) {
     $scope.uuid = '';
     $scope.found = '';
-
+    $scope.spinner = true;
     var updateURL = "http://sujoyghosal-test.apigee.net/rideshare/acceptride?uuid=" + row.uuid
       + "&passenger_name=Login"
       + "&passenger_phone=8888888888"
@@ -126,7 +136,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       // when the response is available
       //alert(response)
       //   $scope.found  = "Accepted Ride Successfully going from " + row.from + " to " + row.to + " at " + row.time;
-      
+      $scope.spinner = false;
       if (response.data === "Already Accepted") {
         $scope.found = response.data;
         $scope.uuid = row.uuid;
@@ -146,6 +156,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.acceptedRide = "Could not submit acceptance. " + error;
       $scope.cancel = false;
     });
@@ -154,6 +165,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   var accepts = [];
 
   $scope.GetRideAcceptances = function (row, cancel) {
+    $scope.spinner = true;
     var acceptsURL = "http://sujoyghosal-test.apigee.net/rideshare/getrideacceptances?uuid=" + row.uuid;
     $http({
       method: 'GET',
@@ -161,12 +173,14 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.spinner = false;
       accepts = response.data.entities;
       if (cancel)
         $scope.CancelRide(row, false);
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.found = "Could not submit acceptance. " + error;
       $scope.accepted = false;
     });
@@ -174,7 +188,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   };
 
   $scope.GetMyAcceptedRides = function (email) {
-
+    $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/acceptedrides?email=" + email.trim();
     getURL = encodeURI(getURL);
     $http({
@@ -183,6 +197,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.spinner = false;
       if (angular.isArray(response.data)) {
         $scope.cityRides = response.data;
         // $scope.found  = "Active ride offers for " + param_name;
@@ -198,6 +213,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.found = "Oops! There was a problem. " + error;
       $scope.allrides = false;
     });
@@ -206,6 +222,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.CancelOffer = function (row) { 
     //   $scope.uuid = ''; 
     //    $scope.GetRideAcceptances(row);    
+    $scope.spinner = true;
     var cancelURL = "http://sujoyghosal-test.apigee.net/rideshare/canceloffer?uuid=" + row.uuid;
     $http({
       method: 'GET',
@@ -213,6 +230,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.spinner = false;
       alert("Successfully Cancelled.")
       $scope.uuid = row.uuid;
       $scope.cancel = true;
@@ -221,6 +239,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.found = "Could not cancel. " + cancelURL;
       $scope.accepted = false;
       $scope.uuid = row.uuid;
@@ -232,6 +251,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.CancelRide = function (row, responseAsMessage) { 
     //   $scope.uuid = ''; 
     //    $scope.GetRideAcceptances(row);    
+    $scope.spinner = true;
     var cancelURL = "http://sujoyghosal-test.apigee.net/rideshare/cancelacceptedride?uuid=" + row.uuid + "&passenger_email=login@wipro.com";
     $http({
       method: 'GET',
@@ -239,6 +259,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.spinner = false;
       alert("Successfully Cancelled.")
       if (responseAsMessage) {
         $scope.GetMyAcceptedRides(login_email);
@@ -251,6 +272,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.found = "Could not cancel. ";
       $scope.accepted = false;
       $scope.uuid = row.uuid;
@@ -344,9 +366,9 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
   };
 });
 app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) {
-
+$scope.spinner = false;
   $scope.CreateUser = function (user) {
-
+$scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/createuser?email="
       + user.email.trim() + "&phone=" + user.phone.trim() + "&dept=" + user.dept.trim() + "&fullname=" + user.fullname.trim() + "&password=" + user.password;
     getURL = encodeURI(getURL);
@@ -357,6 +379,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.spinner = false;
       if (angular.isObject(response) && response.data.toString() === "CREATED") {
         alert("Account Created with id " + user.email);
         UserService.setLoggedIn(user.fullname);
@@ -372,6 +395,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.spinner = false;
       $scope.loginResult = "Could not submit request.." + error;
     });
   }

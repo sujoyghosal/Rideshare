@@ -2,73 +2,76 @@ table,
   th {
     background-color: black;
     border: 1px solid grey;
-    border-collapse: collapse;
     padding: 5px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: lime;
-    font-size: 11pt;
+    font: 'Tahoma';
+    color: lawngreen;
+    font-size: 10pt;  
   }
   
   td {
-    background-color: black;
+    background-color: darkgoldenrod;
     border: 1px solid grey;
-    border-collapse: collapse;
     padding: 5px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font: 'Tahoma';
+    color: black;
+    font-size: 10pt;  
   }
   
   table tr:nth-child(odd) {
     background-color: #f1f1f1;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 11pt;
+    font: 'Tahoma';
+    font-size: 8pt;
     color: deeppink;
   }
   
   table tr:nth-child(even) {
     background-color: #ffffff;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 11pt;
+    font: 'Tahoma';
+    font-size: 8pt;
     color: deeppink;
   }
   
+  #ridestable tr:hover {
+      background-color: #ddd;
+  }
+
   table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     content: " \25B4\25BE" 
   }
   body {
-    background-color: gold;
+    background-color: black;
   }
   
   h1 {
-    color: darkblue;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 15pt;
+    color: lawngreen;
+    font: 'Tahoma';
+    font-size: 14pt;
   }
   
   h2 {
     color: lawngreen;
     text-align: left;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 11pt;
+    font: 'Tahoma';
+    font-size: 8pt;
   }
   
   p {
-    font-family: "Times New Roman";
-    font-size: 15pt;
-    color: darkblue;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 11pt;
+    color: lawngreen;
+    font: 'Gill Sans';
   }
   
   button {
     font-size: 11pt;
     color: lawngreen;
     background-color: black;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font: 'Gill Sans';
     font-size: 11pt;
   }
   
   select {
-    font-size: 11pt;
-    color: darkblue;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 10pt;
+    color: black;
+    font: 'Tahoma';
   }
   

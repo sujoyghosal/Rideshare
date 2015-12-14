@@ -8,38 +8,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/rating.css">
-   
-  
-  <style>
-    #ridestable {
-      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    #ridestable td,
-    #customers th {
-      border: 1px solid #ddd;
-      text-align: left;
-      padding: 8px;
-    }
-    
-    #ridestable tr:nth-child(even) {
-      background-color: #f2f2f2
-    }
-    
-    #ridestable tr:hover {
-      background-color: #ddd;
-    }
-    
-    #ridestable th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      background-color: #4CAF50;
-      color: white;
-      padding-left: 10px
-    }
-  </style>
+  <link rel="stylesheet" href="css/cpstylesheet.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -52,7 +23,7 @@
     <br>
     <div ng-app="myApp" ng-controller="RidesCtrl">
       <label for="citySelect">
-        <p/><b/>Select City: </label>
+        <p/>Select City: </label>
       <br>
 
       <select name="citySelect" ng-model="data.citySelect">
@@ -70,6 +41,7 @@
       <button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Rides in {{data.citySelect}}</button>
       </t>
       <br>
+      <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
       <p>
         <p/><b/>{{found}}
         <br>
@@ -81,7 +53,6 @@
             <option value="time">Start Time</option>
             <option value="from_place">From</option>
             <option value="to_place">To</option>
-            <option value="status">Status</option>
             <option value="currentcount">Filled</option>
           </select>
           <label ng-show="allrides">Search in Rides:
@@ -92,30 +63,26 @@
               <table id="ridestable" ng-show="allrides" id="searchTextResults">
                 <thead>
                   <tr>
-                    <th>Number</th>
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Start Time</th>
                     <th>From</th>
                     <th>To</th>
                     <th>Via</th>
-                    <th>Status</th>
                     <th>Filled</th>
                     <th ng-hide="true">UUID</th>
                     <th>Join Ride</th>
                   </tr>
                 </thead>
                 <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
-                  <td>{{$index + 1}}</td>
                   <td>{{row.offeredby}}</td>
                   <td>{{row.phone_number}}</td>
                   <td>{{row.time}}</td>
                   <td>{{row.from_place}}</td>
                   <td>{{row.to_place}}</td>
                   <td>{{row.via}}</td>
-                  <td>{{row.status}}</td>
-                  <td ng-controller="FundooCtrl">
-                    <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>({{row.currentcount + ' of ' + row.maxcount}})</td>
+                  <td ng-controller="FundooCtrl" white-space="nowrap">
+                    <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div></td>
                   <td ng-hide="true">{{row.uuid}}</td>
                   <td ng-hide="uuid === row.uuid && cancel">
                     <button class="btn btn-primary btn-md" ng-click="AcceptRide(row)">Accept Ride</button>

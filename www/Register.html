@@ -37,9 +37,11 @@
 
         <form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
 
-          <center><legend>
-            REGISTER
-          </legend></center>
+          <center>
+            <legend>
+              REGISTER
+            </legend>
+          </center>
           <fieldset class="clearfix">
             <p><span class="fontawesome-user"></span>
               <input type="text" ng-model="login.fullname" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''"
@@ -66,6 +68,7 @@
             <p>
               <input type="button" value="Register" ng-click="CreateUser(login)">{{result}}
             </p>
+            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 
           </fieldset>
 

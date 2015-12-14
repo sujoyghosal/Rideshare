@@ -1,76 +1,82 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="css/rating.css">
+  <link rel="stylesheet" href="css/rating.css">
   <link rel="stylesheet" type="text/css" href="css/cpstylesheet.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script src="js/myappangular.js"></script>
+
 <body>
   <center>
-	<h1/>MY OFFERED RIDES
-  <div ng-app="myApp" ng-controller="RidesCtrl">
-  <button class="btn btn-primary btn-md" ng-click="GetRides('email','sujoy.ghosal4@gmail.com')">GET RIDES I OFFERED</button>
-    <br>
-    <br>
-    <p>
-      <p/><b/>{{found}}
+    <h1/>MY OFFERED RIDES
+    <div ng-app="myApp" ng-controller="RidesCtrl">
+      <button class="btn btn-primary btn-md" ng-click="GetRides('email','sujoy.ghosal4@gmail.com')">GET RIDES I OFFERED</button>
       <br>
-      <br>
-      <label ng-show="allrides">Search in Rides: <input ng-model="searchText"></label>
-      <table ng-show="allrides">
-        <thead>
-          <tr>
-            <th>
-              <h2/>Number</th>
-            <th>
-              <h2/>Name</th>
-            <th>
-              <h2/>City</th>
-            <th>
-              <h2/>Mobile</th>
-            <th>
-              <h2/>Start Time</th>
-            <th>
-              <h2/>From</th>
-            <th>
-              <h2/>To</th>
-            <th>
-              <h2/>Max Passengers</th>
-            <th>
-              <h2/>Current Count</th>
-            <th ng-hide="true">
-              <h2/>UUID</th>
-            <th>
-              <h2/>Action</th>
-              
+      <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+
+      <p>
+        <p/><b/>{{found}}
+        <br>
+        <br>
+        <label ng-show="allrides">Search in Rides:
+          <input ng-model="searchText">
+        </label>
+        <table ng-show="allrides">
+          <thead>
+            <tr>
+              <th>
+                <h2/>Number</th>
+              <th>
+                <h2/>Name</th>
+              <th>
+                <h2/>City</th>
+              <th>
+                <h2/>Mobile</th>
+              <th>
+                <h2/>Start Time</th>
+              <th>
+                <h2/>From</th>
+              <th>
+                <h2/>To</th>
+              <th>
+                <h2/>Max Passengers</th>
+              <th>
+                <h2/>Current Count</th>
+              <th ng-hide="true">
+                <h2/>UUID</th>
+              <th>
+                <h2/>Action</th>
+
+            </tr>
+          </thead>
+          <tr ng-repeat="row in cityRides | orderBy : '-time' | filter:searchText">
+            <td>{{$index + 1}}</td>
+            <td>{{row.offeredby}}</td>
+            <td>{{row.city}}</td>
+            <td>{{row.phone_number}}</td>
+            <td>{{row.time}}</td>
+            <td>{{row.from_place}}</td>
+            <td>{{row.to_place}}</td>
+            <td>{{row.maxcount}}</td>
+            <td>{{row.currentcount}}</td>
+            <td ng-hide="true">{{row.uuid}}</td>
+            <td>
+              <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
+            </td>
           </tr>
-        </thead>
-        <tr ng-repeat="row in cityRides | orderBy : '-time' | filter:searchText">
-          <td>{{$index + 1}}</td>
-          <td>{{row.offeredby}}</td>
-          <td>{{row.city}}</td>
-          <td>{{row.phone_number}}</td>
-          <td>{{row.time}}</td>
-          <td>{{row.from_place}}</td>
-          <td>{{row.to_place}}</td>
-          <td>{{row.maxcount}}</td>
-          <td>{{row.currentcount}}</td>
-          <td ng-hide="true">{{row.uuid}}</td>
-          <td>
-            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
-          </td>
-        </tr>
-      </table>
-    </p>
-  </div>
+        </table>
+      </p>
+    </div>
   </center>
-  </body>
+</body>
 
 </html>
