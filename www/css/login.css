@@ -83,14 +83,14 @@ p {
   color: #606468;
   display: block;
   float: left;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
-  width: 50px;
+  width: 40px;
 }
 
 #login form input {
-  height: 50px;
+  height: 40px;
 }
 
 #login form input[type="button"] {
