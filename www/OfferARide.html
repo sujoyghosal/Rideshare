@@ -36,7 +36,7 @@
 
       <div id="login">
 
-        <form class="form-horizontal" ng-controller="OfferRideCtrl" name="myForm">
+        <form class="form-horizontal" ng-controller="OfferRideCtrl" name="myForm" autocomplete="on" novalidate>
 
           <center>
             <legend>CREATE A RIDE OFFER</legend>
@@ -46,66 +46,73 @@
 
                 <p><span class="fontawesome-user"></span>
                   <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md"
-                  required="true">
+                  ng-required>
+                  <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
+
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-envelope"></span>
                   <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder="EMail" class="form-control input-md"
-                  required="true">
+                  ng-required>
+                  <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
+
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-phone"></span>
-                  <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="2" type="tel" placeholder="Mobile Number" class="form-control input-md"
-                  required="true">
+                  <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="8" type="tel" placeholder="Mobile Number" class="form-control input-md"
+                  ng-required="true">
+                  <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fa fa-map-marker"></span>
                   <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md"
-                  required="true">
+                  ng-required="true">
+                  <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
+
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fa fa-flag-o"></span>
                   <input id="from" name="from" ng-model="offer.from" ng-minlength="2" type="text" placeholder="From" class="form-control input-md"
                   required="true">
+                  <h2 ng-show="myForm.from.$dirty && myForm.from.$invalid">Invalid Start Point</h2>
+
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fa fa-stop-circle-o"></span>
                   <input id="to" name="to" ng-model="offer.to" ng-minlength="2" type="text" placeholder="To" class="form-control input-md"
-                  required="true">
+                  ng-required="true">
+                  <h2 ng-show="myForm.to.$dirty && myForm.to.$invalid">Invalid Destination</h2>
+
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fa fa-arrows-alt"></span>
-                  <input id="via" name="via" ng-model="offer.via" ng-minlength="2" type="text" placeholder="Via e.g. Victoria, Ballygunje"
-                  class="form-control input-md" required="true">
+                  <input id="via" name="via" ng-model="offer.via" ng-minlength="6" type="text" placeholder="Via e.g. Victoria, Ballygunje"
+                  class="form-control input-md" ng-required="true">
+                  <h2 ng-show="myForm.via.$dirty && myForm.via.$invalid">Invalid Route Points</h2>
+
                 </p>
                 <p><span class="fa fa-clock-o"></span>
                   <input id="time" name="time" ng-model="offer.time" ng-minlength="2" type="datetime-local" placeholder="Via e.g. Victoria, Ballygunje"
-                  class="form-control input-md" required="true">
+                  class="form-control input-md" ng-required="true">
+                  <h2 ng-show="myForm.time.$dirty && myForm.time.$invalid">Invalid Time/Date in Past</h2>
+
                 </p>
                 <p><span class="fa fa-hand-paper-o"></span>
-                  <input id="max" name="max" ng-model="offer.maxcount" ng-minlength="2" type="number" placeholder="Number of passengers" class="form-control input-md"
-                  required="true">
+                  <input id="max" name="max" ng-model="offer.maxcount" type="number" placeholder="Number of passengers" class="form-control input-md">
                 </p>
-
                 <p>
-                  <input type="button" value="SUBMIT" ng-click="SendOffer(offer)">
+                  <input type="button" name="submit" value="SUBMIT" ng-click="SendOffer(offer)" ng-disabled="myForm.name.$invalid 
+                  ||  myForm.email.$invalid ||  myForm.phone.$invalid ||  myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid ||  myForm.time.$invalid">
                   <br>
-                  <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-
                   <center/> {{loginResult}}
                 </p>
+                <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
               </fieldset>
               <br class='clear'>
         </form>
       </div>
       <!-- end login -->
-
     </div>
-
   </body>
 
   </html>
-
-</body>
-
-</html>

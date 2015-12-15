@@ -7,7 +7,7 @@ app.config(['$routeProvider',
         controller: 'LoginCtrl'
       }).
       when('/home', {
-        templateUrl: 'mainmenu.html',
+        templateUrl: 'home.html',
         controller: 'NavBarCtrl'
       }).
 
@@ -22,6 +22,10 @@ app.config(['$routeProvider',
       when('/offerride', {
         templateUrl: 'OfferARide.html',
         controller: 'OfferRideCtrl'
+      }).
+      when('/subscribe', {
+        templateUrl: 'Subscribe.html',
+        controller: 'RidesCtrl'
       }).
       otherwise({
         redirectTo: '/login'
@@ -44,7 +48,14 @@ app.service('UserService', function () {
     getLoggedIn: getLoggedIn
   };
 });
-app.controller('mainController', function () { });
+app.controller('mainController', function ($scope, UserService) {
+  /*   var user = UserService.getLoggedIn();
+     $scope.loggedIn = angular.isObject(user) && (UserService.getLoggedIn().length > 0);
+     alert("MainController user=" + user + " and loggedIn=" + $scope.loggedIn);*/
+});
+app.controller('LogoutCtrl', function ($scope, UserService) {
+  UserService.setLoggedIn('');
+});
 app.controller('NavBarCtrl', function () { });
 app.controller('OfferRideCtrl', function ($scope, $http) {
   $scope.spinner = false;
@@ -56,24 +67,36 @@ app.controller('OfferRideCtrl', function ($scope, $http) {
     value: new Date(2015, 12, 31, 14, 57)
   };
   $scope.SendOffer = function (offer) {
+
     $scope.spinner = true;
+    $scope.loginResult = "Sent Request";
     var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
       + offer.email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
       + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
-    //   alert(row.uuid);
+    
+    var offerDate = new Date(offer.time);
+    var now = new Date();
+    if (offerDate < now) {
+      $scope.loginResult = "Ride date " + offerDate + " is in past. Please correct offer date.";
+      $scope.spinner = false;
+      return;
+    }
+
     $http({
       method: 'GET',
       url: sendURL
     }).then(function successCallback(response) {
       // this callback will be called asynchronously
-      // when the response is available         
-      $scope.spinner = false;  
+      // when the response is available      
+      $scope.loginResult = "Success";
+      $scope.spinner = false;
       $scope.status = response.statusText;
-      alert("Offer " + response.statusText);
+//      alert("Offer " + response.statusText);
 
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
+      $scope.loginResult = "Error Received from Server.." + error.toString();
       $scope.spinner = false;
       $scope.status = error.statusText;
     });
@@ -109,6 +132,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       $scope.spinner = false;
       $scope.cityRides = response.data;
       // $scope.found  = "Active ride offers for " + param_name;
+      
       $scope.allrides = true;
       $scope.cancel = false;
     }, function errorCallback(error) {
@@ -367,9 +391,9 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
   };
 });
 app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) {
-$scope.spinner = false;
+  $scope.spinner = false;
   $scope.CreateUser = function (user) {
-$scope.spinner = true;
+    $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/createuser?email="
       + user.email.trim() + "&phone=" + user.phone.trim() + "&dept=" + user.dept.trim() + "&fullname=" + user.fullname.trim() + "&password=" + user.password;
     getURL = encodeURI(getURL);
@@ -384,13 +408,13 @@ $scope.spinner = true;
       if (angular.isObject(response) && response.data.toString() === "CREATED") {
         alert("Account Created with id " + user.email);
         UserService.setLoggedIn(user.fullname);
-        $location.path("/home");
+        $location.path("/offerride");
         return;
       } else {
         $scope.result = response;
         alert("Email Id Exists..");
         UserService.setLoggedIn(user.fullname);
-        $location.path("/home");
+        $location.path("/offerride");
         return;
       }
     }, function errorCallback(error) {
