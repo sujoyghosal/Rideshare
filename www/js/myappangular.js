@@ -160,7 +160,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   };
 
   $scope.Subscribe = function (data, type, user) {
-     
+
     $scope.spinner = true;
     $scope.result = "Sending Request....";
     //first create group with id=<city>-<place>
@@ -196,7 +196,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   };
 
   var addUserToGroup = function (group, user) {
-     $scope.spinner = true;   
+    $scope.spinner = true;   
     //first create group with id=<city>-<place>
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/addusertogroup?group=" + group + "&user=" + user;
     getURL = encodeURI(getURL);
@@ -426,9 +426,14 @@ app.controller('FundooCtrl', function ($scope, $window) {
     }
   });
 
-app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
+app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, UserService) {
   $scope.spinner = false;
-  $scope.login_email = '';
+  $scope.login_email = UserService.getLoggedIn();
+  if ($scope.login_email.length == 0)
+    $scope.showNav = false;
+  else
+    $scope.showNav = true;
+    alert($scope.showNav + "," + $scope.login_email.length);
   $scope.Login = function (login) {
     $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getuser?email="
@@ -450,11 +455,13 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
           return;
         }
       } else {
+
         alert("Id Found");
         $scope.loginResult = response.data[0].username;
         $location.path("/home");
         UserService.setLoggedIn(login.email);
-        $scope.login_email = UserService.setLoggedIn(login.email);
+        $scope.login_email = login.email;
+
         return;
       }
     }, function errorCallback(error) {
@@ -463,12 +470,20 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
       //      $scope.loginResult = "Could not submit login request.." + error;
       $scope.spinner = false;
       $scope.loginResult = "Could not submit request.." + error;
-      $scope.login_email = '';
+      //      $scope.login_email = '';
     });
   };
+
+  $scope.Logout = function () {
+    $scope.login_email = '';
+    UserService.setLoggedIn('');
+
+    return;
+  }
 });
 app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) {
   $scope.spinner = false;
+
   $scope.CreateUser = function (user) {
     $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/createuser?email="
