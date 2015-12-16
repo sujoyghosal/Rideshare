@@ -70,7 +70,7 @@
                 <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
                   <td>{{row.offeredby}}</td>
                   <td>{{row.phone_number}}</td>
-                  <td>{{row.time}}</td>
+                  <td>{{row.time | date: 'medium'}}</td>
                   <td>{{row.from_place}}</td>
                   <td>{{row.to_place}}</td>
                   <td>{{row.via}}</td>

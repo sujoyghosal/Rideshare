@@ -69,7 +69,7 @@ app.controller('LogoutCtrl', function ($scope, UserService) {
   UserService.setLoggedIn('');
 });
 //app.controller('NavBarCtrl', function () { });
-app.controller('OfferRideCtrl', function ($scope, $http, UserService) {
+app.controller('OfferRideCtrl', function ($scope, $http, $filter, UserService) {
   $scope.spinner = false;
   $scope.login_email = UserService.getLoggedIn();
   var today = new Date().toISOString().slice(0, 10);
@@ -80,21 +80,28 @@ app.controller('OfferRideCtrl', function ($scope, $http, UserService) {
     value: new Date(2015, 12, 31, 14, 57)
   };
   $scope.SendOffer = function (offer) {
-
-    $scope.spinner = true;
-    $scope.loginResult = "Sent Request";
-    var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
-      + $scope.login_email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
-      + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
-
-    $scope.sURL = sendURL;
+    $scope.loginResult = '';
     var offerDate = new Date(offer.time);
+    alert("OfferDate=" + offerDate);
     var now = new Date();
     if (offerDate < now) {
       $scope.loginResult = "Ride date " + offerDate + " is in past. Please correct offer date.";
       $scope.spinner = false;
+      alert("Returning");
       return;
     }
+
+    $scope.spinner = true;
+    $scope.loginResult = $filter('date')(offerDate, 'medium');
+    //   var filterdatetime = $filter('datetmUTC')( offerDate );
+    alert("Filtered time: " + $scope.loginResult);
+
+    var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
+      + $scope.login_email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + $scope.loginResult + "&city=" + offer.city + "&status=ACTIVE"
+      + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
+
+    alert(sendURL);
+    $scope.loginResult = "Sent Request";
 
     $http({
       method: 'GET',
@@ -131,6 +138,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
     $scope.spinner = true;
+    $scope.found = '';
     if (!paramname || !paramvalue)
       return;
     param_name = paramname.trim();
@@ -145,7 +153,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       // when the response is available
       $scope.spinner = false;
       $scope.cityRides = response.data;
-      // $scope.found  = "Active ride offers for " + param_name;
+      $scope.found  = "Found Rides ";
       
       $scope.allrides = true;
       $scope.cancel = false;
@@ -433,7 +441,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
     $scope.showNav = false;
   else
     $scope.showNav = true;
-    alert($scope.showNav + "," + $scope.login_email.length);
+  // alert($scope.showNav + "," + $scope.login_email.length);
   $scope.Login = function (login) {
     $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getuser?email="
@@ -455,8 +463,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
           return;
         }
       } else {
-
-        alert("Id Found");
+        //        alert("Id Found");
         $scope.loginResult = response.data[0].username;
         $location.path("/home");
         UserService.setLoggedIn(login.email);
