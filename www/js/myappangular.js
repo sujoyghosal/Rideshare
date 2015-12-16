@@ -35,6 +35,10 @@ app.config(['$routeProvider',
         templateUrl: 'Subscribe.html',
         controller: 'RidesCtrl'
       }).
+      when('/sendnotification', {
+        templateUrl: 'SendPush.html',
+        controller: 'RidesCtrl'
+      }).
       otherwise({
         redirectTo: '/login'
       });
