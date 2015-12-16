@@ -1,5 +1,7 @@
 var express = require('express');
 var usergrid = require('usergrid');
+
+
 //var config = require('./config');
 // Set up Express environment and enable it to read and write JavaScript
 var allowCrossDomain = function(req, res, next) {
@@ -120,6 +122,8 @@ function getrides(req, res) {
         res.jsonp(allrideshare);
     });
 }
+
+
 var uuid='';
 var currentcount='';
 var maxcount='';
@@ -127,7 +131,7 @@ var updateoptions='';
 var passenger={};
 var acceptoptions='';
 
-app.get('/updatecount', function(req, res) {
+app.get('/acceptride', function(req, res) {
     uuid = req.param('uuid');
     currentcount = req.param('currentcount');
     currentcount = +currentcount + 1;
@@ -139,9 +143,9 @@ app.get('/updatecount', function(req, res) {
         "passenger_dept": req.param('passenger_dept')
 	};
     updateoptions = {
-		"type": "wiprorideshares", //Required - the type of collection to be retrieved
-        "uuid": uuid,
-        "cuurentcount": currentcount
+        "cuurentcount": currentcount,
+        "passengers": passenger,
+        "status": "Accepted"
 	};
 	var acname = uuid + req.param('passenger_email');
 	acceptoptions = {
@@ -158,17 +162,23 @@ app.get('/updatecount', function(req, res) {
     }*///qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
     if (loggedIn === null) {
         logIn(req, res, function() {
-            acceptRide(acceptoptions,updateoptions, req, res);
+        //    acceptRide(acceptoptions,updateoptions, req, res);
+        acceptride(1, uuid, req, res);
         });
     } else {
-        acceptRide(acceptoptions,updateoptions, req, res);
+        //acceptRide(acceptoptions,updateoptions, req, res);
+        acceptride(1, uuid, req, res);
     }
 });
 
 
-function updatecount(incr, req, res) {
-     
-  loggedIn.getEntity(updateoptions, function(err, rideshare) {
+function acceptride(incr,uuid, req, res) {
+  var opt =  {
+		"type": "wiprorideshares", //Required - the type of collection to be retrieved
+        "uuid": uuid
+  };
+   
+  loggedIn.getEntity(opt, function(err, rideshare) {
 //    loggedIn.createCollection(options, function(err, ngccnotifications) {
 //  loggedIn.request({ options, function(err, ngccnotifications) {      
         if (err) {
@@ -176,9 +186,22 @@ function updatecount(incr, req, res) {
           return;
         }
         
-//        res.jsonp(rideshare);
+//        res.send(rideshare._data.passengers.length);
 //        return;
-
+        if(!rideshare._data.passengers || rideshare._data.passengers.length === 0){
+            var p = [];
+            p.push(passenger);
+            rideshare.set('passengers',p);
+        } else {
+              for (var i=0; i < rideshare._data.passengers.length; i++) {
+              var apasseneger = rideshare._data.passengers[i];
+              if(apasseneger.passenger_email === passenger.passenger_email){
+                  res.send("Already Accepted");
+                  return;
+              }
+            }
+            rideshare._data.passengers.push(passenger);
+        }
         var currentcount = rideshare.get('currentcount');
         var maxcount = rideshare.get('maxcount');
         currentcount = +currentcount + (+incr);
@@ -186,6 +209,7 @@ function updatecount(incr, req, res) {
             rideshare.set('currentcount', +currentcount);
         if(+currentcount == +maxcount){
             res.jsonp("Reached max count " + maxcount);
+            
         }
         
 //        rideshare.set('passengers',  passengers);
@@ -202,130 +226,96 @@ function updatecount(incr, req, res) {
         });
     });
 }
-function acceptRide(e, updateoptions, req, res) {
-    var opts = {
-        type: 'acceptedrides',
-//        name: 'Dominos' 
-    };
-    loggedIn.createEntity(opts, function(err, o) {
-        if (err) {
-            res.jsonp(500, err);
-            return;
-        }
-        o.set(e);
-        o.save(function(err) {
-            if (err) {
- //             res.jsonp(500, err);
-            res.send("Already Accepted!")
-              return;
-            }
-            var opts = {
-                type: 'wiprorideshares',
-//        name: 'Dominos' 
-            };
-            loggedIn.createEntity(opts, function(err, p) {
-                if (err) {
-                    res.jsonp(500, err);
-                    return;
-                }
-                p.set(updateoptions);
-                p.connect('accepted', o, function (err, data) {
-                if (err) {
-                    // error - connection not created
-                } else {
-                    if (loggedIn === null) {
-                      logIn(req, res, function() {
-                        updatecount(1, req, res);
-                     });
-                    } else {
-                      updatecount(1,req, res);
-                    }
-                    res.send(data);
-                }
-            });
-        });
-    });
-    
-    });
-}
-// POST /rideshare
-var accept_options='';
-app.get('/getrideacceptances', function(req, res){
-    var uuid = req.param('uuid');
-    var accept_options = {
-		"type": "wiprorideshares", //Required - the type of collection to be retrieved
-        "uuid": uuid
-	};
-    if (loggedIn === null) {
-        logIn(req, res, function() {
-            getrideacceptances(accept_options, req, res);
-        });
-    } else {
-        getrideacceptances(accept_options, req, res);
-    }
-});
-
-function getrideacceptances(accept_options, req, res){
-            
-            loggedIn.getEntity(accept_options, function(err, p) {
-                if (err) {
-                    res.jsonp(500, err);
-                    return;
-                }
-            //    p.set(accept_options);
-                p.getConnections('accepted', function (err, data) {
-                if (err) {
-                    // error - connection not created
-                    res.send("Could not get Connections - " + err)
-                } else {
-                    
-                    res.jsonp(data);
-                }
-                });
-                });
-}
 
 var arides_query='';
 app.get('/acceptedrides', function(req, res) {
-    paramname = req.param('paramname');
-    paramvalue = req.param('paramvalue');
-    arides_query = {
-		type:"acceptedrides?limit=100", //Required - the type of collection to be retrieved
-        qs: {"ql": paramname +"='" + paramvalue + "'"}
-	};
-	if(paramname === 'uuid'){
-    	rides_query = {
-    		"type":"acceptedrides",
-            "uuid": paramvalue
-    	};
-	}
+    var email = req.param('email');
+    
     if (loggedIn === null) {
-      logIn(req, res, acceptedrides);
+        logIn(req, res, function() {
+            acceptedrides(email, req, res);
+        });
     } else {
-      acceptedrides(req, res);
-    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+        acceptedrides(email, req, res);
+    }
 });
 
 
-function acceptedrides(req, res) {
-  loggedIn.createCollection(arides_query, function(err, rideshare) {
+function acceptedrides(email, req, res) {
+  var opt = {
+      "type": "wiprorideshares",
+      qs: {"ql": "status='active'"}
+  };
+  loggedIn.createCollection(opt, function(err, rideshare) {
         if (err) {
           res.jsonp(500, {'error': JSON.stringify(err) });
           return;
         }
-        var allrideshare = [];
-        while (rideshare.hasNextEntity()) {
-          var arideshare = rideshare.getNextEntity().get();
-          allrideshare.push(arideshare);
+//        res.jsonp(rideshare._list[0]._data.passengers);
+//        return;
+        var accepted_rides = [];
+        if(!rideshare._list || rideshare._list.length === 0){
+            res.send("You Have No Accepted Rides.");
+            return;
+        } else {
+                for (var i=0; i < rideshare._list.length; i++) {
+                    if(rideshare._list[i]._data.passengers && rideshare._list[i]._data.passengers.length > 0){
+                        for (var j=0; j < rideshare._list[i]._data.passengers.length; j++) {
+                            if(rideshare._list[i]._data.passengers[j].passenger_email === email){
+                              accepted_rides.push(rideshare._list[i]);
+                            } 
+                        }
+                    }
+                }
+            }
+        if(accepted_rides && accepted_rides.length > 0)
+            res.send(accepted_rides);
+        else
+            res.send("You Have No Accepted Rides.");
+    });
+}
+
+
+
+app.get('/canceloffer', function(req, res) {
+    var uuid = req.param('uuid');
+    
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            canceloffer(uuid, req, res);
+        });
+    } else {
+        canceloffer(uuid, req, res);
+    }
+});
+
+
+function canceloffer(uuid, req, res) {
+  var opt = {
+      "type": "wiprorideshares",
+      "uuid": uuid
+  };
+  loggedIn.getEntity(opt, function(err, o) {
+        if (err) {
+          res.jsonp(500, {'error': JSON.stringify(err) });
+          return;
         }
-        res.jsonp(allrideshare);
+        o.destroy(function(err){
+        	if (err){
+        		res.send("Could not cancel offer");
+        	} else {
+        		//success - user deleted from database
+        		o = null; //blow away the local object
+        		res.send("Successfully Cancelled Offered Ride.");
+        	}
+        });
     });
 }
 
 
 app.get('/cancelacceptedride', function(req, res) {
     var uuid = req.param('uuid');
-    var auuid = req.param('auuid');
+//    var auuid = req.param('auuid');
     var currentcount = req.param('currentcount');
     currentcount = +currentcount + 1;
     var maxcount = req.param('maxcount');
@@ -335,83 +325,54 @@ app.get('/cancelacceptedride', function(req, res) {
     updateoptions = {
 		"type": "wiprorideshares", //Required - the type of collection to be retrieved
         "uuid": uuid,
-        "cuurentcount": currentcount
 	};
-	var acname = uuid + req.param('passenger_email');
-	acceptoptions = {
-        "uuid": auuid,
-        "type": "acceptedrides"
-	};
-/*    if (loggedIn === null) {
-      logIn(req, res, updatecount);
-    } else {
-      userid = req.param('userid');
-      updatecount(req, res);
-    }*///qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+	
     if (loggedIn === null) {
         logIn(req, res, function() {
-            cancelRide(acceptoptions,updateoptions, req, res);
+            cancelRide(passenger_email,updateoptions, req, res);
         });
     } else {
-        cancelRide(acceptoptions,updateoptions, req, res);
+        cancelRide(passenger_email,updateoptions, req, res);
     }
 });
 function cancelRide(e, updateoptions, req, res) {
-    loggedIn.getEntity(e, function(err, o) {
+    loggedIn.getEntity(updateoptions, function(err, o) {
         if (err) {
             res.jsonp(500, err);
             return;
         }
-        o.set("status", "Cancelled");
-        o.save(function(err) {
+        for(var i = o._data.passengers.length - 1; i >= 0; i--) {
+            if(o._data.passengers[i].passenger_email === e) {
+                o._data.passengers.splice(i, 1);
+            }
+        }
+        var cc = o._data.currentcount;
+            cc = +cc - 1;
+            if(+cc > 0)
+                o.set('currentcount',cc);
+            else {
+                o.set('currentcount',0);
+            }
+            
+            o.save(function(err) {
             if (err) {
  //             res.jsonp(500, err);
-            res.send("Could not update status to cancelled")
+                res.send("Could not update status to cancelled")
               return;
+            } else {
+                res.jsonp(o);
             }
-            var opts = {
-                type: 'wiprorideshares',
-//        name: 'Dominos' 
-            };
-            loggedIn.createEntity(opts, function(err, p) {
-                if (err) {
-                    res.jsonp(500, err);
-                    return;
-                }
-                p.set(updateoptions);
-                p.disconnect('accepted', o, function (err, data) {
-                if (err) {
-                    // error - connection not created
-                } else {
-                    if (loggedIn === null) {
-                      logIn(req, res, function() {
-                        updatecount(-1, req, res);
-                     });
-                    } else {
-                      updatecount(-1,req, res);
-                    }
-                    
-                    o.destroy(function(err){
-                	if (err){
-                		res.send("Could not delete acceptedrides object");
-                	} else {
-                		//success - user deleted from database
-                		o = null; //blow away the local object
-                		res.send("Successfully Cancelled.");
-                	}
-                });
-                }
-            });
+            
         });
     });
-    
-    });
 }
+
 app.get('/createrideshare', function(req, res) {
    
     var b = req.body;
+    var name = req.param('email') + '-' + req.param('time');
     var e = {
-      'name': req.param('email'),
+      'name': name,
       'offeredby': req.param('offeredby'),
       'from_place': req.param('from_place'),
       'to_place': req.param('to_place'),
@@ -446,17 +407,17 @@ function createrideshare(e, req, res) {
     };
     loggedIn.createEntity(opts, function(err, o) {
         if (err) {
-            res.jsonp(500, err);
+            res.send(err);
             return;
         }
         o.set(e);
         o.save(function(err) {
             if (err) {
-              res.jsonp(500, err);
+              res.send(err);
               return;
             }
           
-            res.send(201);
+            res.send("OFFER CREATED");
         });
     });
 }
@@ -518,7 +479,120 @@ function getridesharebylocation(req, res) {
         res.jsonp(allrideshare);
     });
 }
+app.get('/creategroup', function (req, res) {
 
+    var group = req.param('group');
+
+    var options = {
+        method: 'POST',
+        endpoint: 'groups',
+        body: {
+            path: group
+        }
+    };
+
+
+    if (loggedIn === null) {
+        logIn(req, res, function () {
+            createGroup(options, req, res);
+        });
+    } else {
+        createGroup(options, req, res);
+    }
+});
+
+function createGroup(e, req, res) {
+    loggedIn.request(e, function (err, data) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(201);
+        }
+    });
+}
+
+app.get('/createuser', function (req, res) {
+
+    var fullname = req.param('fullname');
+    var password = req.param('password');
+    var email = req.param('email');
+    var dept = req.param('dept');
+    var phone = req.param('phone');
+
+    var options = {
+        method: 'POST',
+        endpoint: 'users',
+        body: {
+            username: email,
+            name: email,
+            email: email,
+            fullname: fullname,
+            password: password,
+            phone: phone,
+            dept: dept
+        }
+    };
+
+
+    if (loggedIn === null) {
+        logIn(req, res, function () {
+            createUser(options, req, res);
+        });
+    } else {
+        createUser(options, req, res);
+    }
+});
+
+function createUser(e, req, res) {
+    loggedIn.request(e, function (err, data) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+            res.send("CREATED");
+        }
+    });
+}
+
+
+app.get('/getuser', function (req, res) {
+    var email = req.param('email');
+    var options2 = {
+        type: "users",
+        qs: {
+            "ql": "name='" + email + "'"
+        }
+    };
+    if (loggedIn === null) {
+        logIn(req, res, function () {
+            getuserbyemail(options2, req, res);
+        });
+    } else {
+        getuserbyemail(options2, req, res);
+    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+
+//Call request to initiate the API call
+
+function getuserbyemail(e, req, res) {
+
+    loggedIn.createCollection(e, function (err, users) {
+        if (err) {
+            res.jsonp(e);
+            return;
+        }
+
+        var allusers = [];
+        while (users.hasNextEntity()) {
+            var auser = users.getNextEntity().get();
+            allusers.push(auser);
+        }
+        if(allusers.length > 0)
+        res.jsonp(allusers);
+        else
+            res.send("User Not Found");
+    });
+}
 
 var login_query = '';
 

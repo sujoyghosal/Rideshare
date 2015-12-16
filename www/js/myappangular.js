@@ -154,6 +154,66 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     });
 
   };
+
+  $scope.Subscribe = function (data, type, user) {
+     
+    $scope.spinner = true;
+    $scope.result = "Sending Request....";
+    //first create group with id=<city>-<place>
+    var getURL = "http://sujoyghosal-test.apigee.net/rideshare/creategroup?group=";
+    var group = '';
+    if (type === "to") {
+      group = "TO-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.selectedto.toString().trim().toUpperCase();
+    } else if (type === "from") {
+      group = "FROM-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.selectedfrom.toString().trim().toUpperCase();
+    } else return;
+
+    getURL = encodeURI(getURL + group);
+    $scope.result = getURL;
+    $http({
+      method: 'GET',
+      url: getURL
+    }).then(function successCallback(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.spinner = false;
+      //     $scope.result = "SUCCESS ADDING GROUP " + group;
+      var u = $scope.login_email;
+      addUserToGroup(group, u);
+      // $scope.found  = "Active ride offers for " + param_name;
+    }, function errorCallback(error) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      $scope.spinner = false;
+      $scope.found = "Could not submit acceptance. " + error;
+      $scope.allrides = false;
+    });
+
+  };
+
+  var addUserToGroup = function (group, user) {
+     $scope.spinner = true;   
+    //first create group with id=<city>-<place>
+    var getURL = "http://sujoyghosal-test.apigee.net/rideshare/addusertogroup?group=" + group + "&user=" + user;
+    getURL = encodeURI(getURL);
+    $http({
+      method: 'GET',
+      url: getURL
+    }).then(function successCallback(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.spinner = false;
+      $scope.result = "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES ";     
+      // $scope.found  = "Active ride offers for " + param_name;
+    }, function errorCallback(error) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      $scope.spinner = false;
+      $scope.result = "ERROR ADDING SUBSCRIPTION TO PUSH MESSAGES ";
+      $scope.allrides = false;
+    });
+  };
+
   $scope.AcceptRide = function (row) {
     $scope.uuid = '';
     $scope.found = '';
