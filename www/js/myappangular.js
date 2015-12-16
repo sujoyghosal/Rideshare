@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.directives','ui.filters']);
 app.config(['$routeProvider',
   function ($routeProvider) {
     $routeProvider.
@@ -8,7 +8,7 @@ app.config(['$routeProvider',
       }).
       when('/home', {
         templateUrl: 'home.html',
-        controller: 'NavBarCtrl'
+        controller: 'LoginCtrl'
       }).
 
       when('/register', {
@@ -19,9 +19,17 @@ app.config(['$routeProvider',
         templateUrl: 'GetRide.html',
         controller: 'RidesCtrl'
       }).
+      when('/rideshistory', {
+        templateUrl: 'MyAcceptedRides.html',
+        controller: 'RidesCtrl'
+      }).
       when('/offerride', {
         templateUrl: 'OfferARide.html',
         controller: 'OfferRideCtrl'
+      }).
+      when('/offershistory', {
+        templateUrl: 'MyOffers.html',
+        controller: 'RidesCtrl'
       }).
       when('/subscribe', {
         templateUrl: 'Subscribe.html',
@@ -56,7 +64,7 @@ app.controller('mainController', function ($scope, UserService) {
 app.controller('LogoutCtrl', function ($scope, UserService) {
   UserService.setLoggedIn('');
 });
-app.controller('NavBarCtrl', function () { });
+//app.controller('NavBarCtrl', function () { });
 app.controller('OfferRideCtrl', function ($scope, $http) {
   $scope.spinner = false;
   var today = new Date().toISOString().slice(0, 10);
@@ -109,9 +117,9 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.cityRides = '';
   $scope.cancel = false;
   $scope.uuid = '';
-
+  
   $scope.login_email = UserService.getLoggedIn();
-
+  
 
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
@@ -151,7 +159,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     var updateURL = "http://sujoyghosal-test.apigee.net/rideshare/acceptride?uuid=" + row.uuid
       + "&passenger_name=Login"
       + "&passenger_phone=8888888888"
-      + "&passenger_email=login@wipro.com";
+      + "&passenger_email=" + UserService.getLoggedIn();
     //   alert(row.uuid);
     $http({
       method: 'GET',
@@ -277,7 +285,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     //   $scope.uuid = ''; 
     //    $scope.GetRideAcceptances(row);    
     $scope.spinner = true;
-    var cancelURL = "http://sujoyghosal-test.apigee.net/rideshare/cancelacceptedride?uuid=" + row.uuid + "&passenger_email=login@wipro.com";
+    var cancelURL = "http://sujoyghosal-test.apigee.net/rideshare/cancelacceptedride?uuid=" + row.uuid + "&passenger_email=" + UserService.getLoggedIn();
     $http({
       method: 'GET',
       url: cancelURL
@@ -354,6 +362,7 @@ app.controller('FundooCtrl', function ($scope, $window) {
 
 app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
   $scope.spinner = false;
+  $scope.login_email = '';
   $scope.Login = function (login) {
     $scope.spinner = true;
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getuser?email="
@@ -379,6 +388,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
         $scope.loginResult = response.data[0].username;
         $location.path("/home");
         UserService.setLoggedIn(login.email);
+        $scope.login_email = UserService.setLoggedIn(login.email);
         return;
       }
     }, function errorCallback(error) {
@@ -387,6 +397,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
       //      $scope.loginResult = "Could not submit login request.." + error;
       $scope.spinner = false;
       $scope.loginResult = "Could not submit request.." + error;
+      $scope.login_email = '';
     });
   };
 });

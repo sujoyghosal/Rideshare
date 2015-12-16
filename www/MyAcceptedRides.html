@@ -3,23 +3,17 @@
 
 <head>
   <link rel="stylesheet" type="text/css" href="css/cpstylesheet.css">
-  <link rel="stylesheet" href="css/rating.css">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-
-  <script src="js/myappangular.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <body>
   <center>
     <h1/>MY ACCEPTED RIDES
     <div ng-app="myApp" ng-controller="RidesCtrl">
-      <button class="btn btn-primary btn-md" ng-click="GetMyAcceptedRides('login@wipro.com')">RIDES I HAVE ACCEPTED</button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button class="btn btn-primary btn-md" ng-click="GetMyAcceptedRides(login_email)">RIDES I HAVE ACCEPTED</button>
       <br>
       <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 

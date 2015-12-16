@@ -2,24 +2,17 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="css/rating.css">
-  <link rel="stylesheet" type="text/css" href="css/cpstylesheet.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/cpstylesheet.css">
 </head>
 
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-<script src="js/myappangular.js"></script>
-
 <body>
-  <center>
-    <h1/>MY OFFERED RIDES
-    <div ng-app="myApp" ng-controller="RidesCtrl">
-      <button class="btn btn-primary btn-md" ng-click="GetRides('email','sujoy.ghosal4@gmail.com')">GET RIDES I OFFERED</button>
+      <br>
+      <br>
+      <br>
+      <br>
+
+    <div ng-app="myApp" ng-controller="RidesCtrl" margin: auto border: 1px solid red>
+      <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
       <br>
       <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 
