@@ -126,16 +126,13 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
     $scope.spinner = true;
-
-    alert(paramname + '=' + paramvalue);
     if (!paramname || !paramvalue)
       return;
     param_name = paramname.trim();
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getrides?paramname="
       + param_name + "&paramvalue=" + paramvalue.trim();
     getURL = encodeURI(getURL);
-    alert(getURL);
-    $http({
+     $http({
       method: 'GET',
       url: getURL
     }).then(function successCallback(response) {
@@ -373,7 +370,6 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
       + login.email.trim();
 
     getURL = encodeURI(getURL);
-    alert(getURL);
     $http({
       method: 'GET',
       url: getURL
