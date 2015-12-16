@@ -59,8 +59,6 @@
 							<td>
 								<h4>Subscribe for notifications when someone starts from these places</h4></td>
 							<td>
-								<pre>Place: {{selectedfrom | json}}</pre>
-
 								<input type="text" ng-model="selectedfrom" typeahead="item.from_place as item.from_place  for item in cityRides | filter:{from_place:$viewValue} | orderBy: 'from_place' | unique: 'from_place'">
 							</td>
 							<td>
