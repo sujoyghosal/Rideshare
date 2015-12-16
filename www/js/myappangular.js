@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.directives','ui.filters']);
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.directives', 'ui.filters']);
 app.config(['$routeProvider',
   function ($routeProvider) {
     $routeProvider.
@@ -65,8 +65,9 @@ app.controller('LogoutCtrl', function ($scope, UserService) {
   UserService.setLoggedIn('');
 });
 //app.controller('NavBarCtrl', function () { });
-app.controller('OfferRideCtrl', function ($scope, $http) {
+app.controller('OfferRideCtrl', function ($scope, $http, UserService) {
   $scope.spinner = false;
+  $scope.login_email = UserService.getLoggedIn();
   var today = new Date().toISOString().slice(0, 10);
   $scope.today = {
     value: today
@@ -75,13 +76,14 @@ app.controller('OfferRideCtrl', function ($scope, $http) {
     value: new Date(2015, 12, 31, 14, 57)
   };
   $scope.SendOffer = function (offer) {
-
+    
     $scope.spinner = true;
     $scope.loginResult = "Sent Request";
     var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
-      + offer.email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
+      + $scope.login_email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
       + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
     
+    $scope.sURL = sendURL;
     var offerDate = new Date(offer.time);
     var now = new Date();
     if (offerDate < now) {
@@ -99,7 +101,7 @@ app.controller('OfferRideCtrl', function ($scope, $http) {
       $scope.loginResult = "Success";
       $scope.spinner = false;
       $scope.status = response.statusText;
-//      alert("Offer " + response.statusText);
+      //      alert("Offer " + response.statusText);
 
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
@@ -117,20 +119,22 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.cityRides = '';
   $scope.cancel = false;
   $scope.uuid = '';
-  
+
   $scope.login_email = UserService.getLoggedIn();
-  
+
 
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
     $scope.spinner = true;
+
+    alert(paramname + '=' + paramvalue);
     if (!paramname || !paramvalue)
       return;
     param_name = paramname.trim();
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getrides?paramname="
       + param_name + "&paramvalue=" + paramvalue.trim();
     getURL = encodeURI(getURL);
-    //   alert(row.uuid);
+    alert(getURL);
     $http({
       method: 'GET',
       url: getURL
@@ -369,6 +373,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, UserService) {
       + login.email.trim();
 
     getURL = encodeURI(getURL);
+    alert(getURL);
     $http({
       method: 'GET',
       url: getURL
@@ -408,7 +413,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/createuser?email="
       + user.email.trim() + "&phone=" + user.phone.trim() + "&dept=" + user.dept.trim() + "&fullname=" + user.fullname.trim() + "&password=" + user.password;
     getURL = encodeURI(getURL);
-
+    
     $http({
       method: 'GET',
       url: getURL
@@ -418,14 +423,14 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
       $scope.spinner = false;
       if (angular.isObject(response) && response.data.toString() === "CREATED") {
         alert("Account Created with id " + user.email);
-        UserService.setLoggedIn(user.fullname);
-        $location.path("/offerride");
+        UserService.setLoggedIn(user.email);
+        $location.path("/login");
         return;
       } else {
         $scope.result = response;
-        alert("Email Id Exists..");
-        UserService.setLoggedIn(user.fullname);
-        $location.path("/offerride");
+        alert("Could not create user id");
+        UserService.setLoggedIn(user.email);
+//        $location.path("/login");
         return;
       }
     }, function errorCallback(error) {

@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8">
 
-  <title>Wipro Rideshare - Login</title>
+  <title>Wipro Rideshare - Offer Ride</title>
 
   <link rel="stylesheet" href="css/offerride.css" media="screen" type="text/css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
@@ -21,7 +21,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
     <script src="js/myappangular.js"></script>
     <meta charset="utf-8">
-    <title>Login</title>
+    <title>OFFER RIDE</title>
 
 
     <!--[if lt IE 9]>
@@ -46,14 +46,14 @@
 
                 <p><span class="fontawesome-user"></span>
                   <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md"
-                  ng-required>
+                  ng-required="true">
                   <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
 
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-envelope"></span>
-                  <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder="EMail" class="form-control input-md"
-                  ng-required>
+                  <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder={{login_email}} class="form-control input-md"
+                  ng-readonly="true">
                   <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
 
                 </p>
@@ -104,7 +104,7 @@
                   <input type="button" name="submit" value="SUBMIT" ng-click="SendOffer(offer)" ng-disabled="myForm.name.$invalid 
                   ||  myForm.email.$invalid ||  myForm.phone.$invalid ||  myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid ||  myForm.time.$invalid">
                   <br>
-                  <center/> {{loginResult}}
+                  <center/> {{loginResult}} {{sURL}}
                 </p>
                 <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
               </fieldset>
