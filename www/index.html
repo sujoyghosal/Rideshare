@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="myApp">
 
 <head>
   <title>Rideshare</title>
@@ -18,11 +18,12 @@
   <script src="js/myappangular.js"></script>
 </head>
 
-<body ng-app="myApp" ng-controller="LoginCtrl">
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
+<body>
+
+  <nav ng-controller="NavBarCtrl" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid" ng-show="isVisible()">
       <div class="navbar-header">
-        <p class="navbar-brand">RIDESHARE </p>
+        <p class="navbar-brand">RIDESHARE {{userid}}</p>
       </div>
       <div>
 
@@ -44,15 +45,16 @@
           <li><a href="#/subscribe">SUBSCRIBE</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-user">{{userid}}</span></a></li>
           <li><a href="#/login" ng-click="Logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         </ul>
       </div>
-    </div>
-  </nav>
 
+  </nav>
+  </div>
   <center>
-    <div class="container">
+
+    <div class="container" ng-controller="LoginCtrl">
       <div class="col-md-9">
         <div ng-view></div>
       </div>
