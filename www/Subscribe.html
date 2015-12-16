@@ -3,6 +3,7 @@
 
 <head>
 	<link rel="stylesheet" href="css/cpstylesheet.css">
+	
 </head>
 
 <body>
@@ -40,7 +41,7 @@
 						<thead>
 							<tr>
 								<th>EVENT TYPE</th>
-								<th>CRITERIA</th>							
+								<th>CRITERIA</th>
 								<th>ACTION</th>
 							</tr>
 						</thead>
@@ -48,8 +49,6 @@
 							<td>
 								<h4>Subscribe for notifications when someone is going to these places</h4></td>
 							<td>
-								<pre>Place: {{selectedto | json}}</pre>
-
 								<input type="text" ng-model="selectedto" typeahead="item.to_place as item.to_place  for item in cityRides | filter:{to_place:$viewValue} | orderBy: 'to_place' | unique: 'to_place'">
 							</td>
 							<td>

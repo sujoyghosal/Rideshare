@@ -76,13 +76,13 @@ app.controller('OfferRideCtrl', function ($scope, $http, UserService) {
     value: new Date(2015, 12, 31, 14, 57)
   };
   $scope.SendOffer = function (offer) {
-    
+
     $scope.spinner = true;
     $scope.loginResult = "Sent Request";
     var sendURL = "http://sujoyghosal-test.apigee.net/rideshare/createrideshare?email="
       + $scope.login_email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + offer.time + "&city=" + offer.city + "&status=ACTIVE"
       + "&from_place=" + offer.from + "&to_place=" + offer.to + "&via=" + offer.via + "&maxcount=" + offer.maxcount;
-    
+
     $scope.sURL = sendURL;
     var offerDate = new Date(offer.time);
     var now = new Date();
@@ -119,7 +119,8 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.cityRides = '';
   $scope.cancel = false;
   $scope.uuid = '';
-
+  $scope.selectedto = undefined;
+  $scope.selectedfrom = undefined;
   $scope.login_email = UserService.getLoggedIn();
 
 
@@ -132,7 +133,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getrides?paramname="
       + param_name + "&paramvalue=" + paramvalue.trim();
     getURL = encodeURI(getURL);
-     $http({
+    $http({
       method: 'GET',
       url: getURL
     }).then(function successCallback(response) {
@@ -409,7 +410,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/createuser?email="
       + user.email.trim() + "&phone=" + user.phone.trim() + "&dept=" + user.dept.trim() + "&fullname=" + user.fullname.trim() + "&password=" + user.password;
     getURL = encodeURI(getURL);
-    
+
     $http({
       method: 'GET',
       url: getURL
@@ -426,7 +427,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
         $scope.result = response;
         alert("Could not create user id");
         UserService.setLoggedIn(user.email);
-//        $location.path("/login");
+        //        $location.path("/login");
         return;
       }
     }, function errorCallback(error) {
