@@ -30,7 +30,7 @@
 </head>
 
 <body>
-
+{{'Welcome' + login_email}}
 
     <!-- Navigation -->
     <nav ng-controller="NavBarCtrl" ng-class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -48,7 +48,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav ">
-                    <li class="active"><a href="#/home">Home</a></li>
+                    <li class="active"><a href="#/home">HOME</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">OFFER A RIDE<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#/offerride">CREATE A RIDE OFFER</a></li>
@@ -59,7 +59,7 @@
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">GET A RIDE<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#/getride">GET ME A RIDE</a></li>
-                            <li><a href="#/rideshistory">My RIDES HISTORY</a></li>
+                            <li><a href="#/rideshistory">MY RIDES HISTORY</a></li>
                         </ul>
                     </li>
                     <li><a href="#/sendnotification">NOTIFICATIONS</a></li>
@@ -67,8 +67,8 @@
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/register">Edit Profile<span class="glyphicon glyphicon-user"></span></a></li>
-                    <li><a href="#/login" ng-click="Logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    <li><a href="#/register">EDIT PROFILE <span class="glyphicon glyphicon-user"></span></a></li>
+                    <li><a href="#/login" ng-click="Logout()"><span class="glyphicon glyphicon-log-in"></span> LOGOUT</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

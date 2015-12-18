@@ -70,6 +70,9 @@ app.controller('NavBarCtrl', function ($scope, $location, UserService) {
     return '/login' !== $location.path();
   };
   $scope.showNav = '/login' !== $location.path();
+  if(!$scope.login_email || $scope.login_email.length <= 1){
+    $location.path('/login');
+  }
 
 });
 app.controller('LogoutCtrl', function ($scope, UserService) {
@@ -445,7 +448,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
   $scope.spinner = false;
 
   $scope.login_email = UserService.getLoggedIn();
-
+  
   if ($scope.login_email.length == 0)
     $scope.showNav = false;
   else
