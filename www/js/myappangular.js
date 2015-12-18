@@ -7,7 +7,7 @@ app.config(['$routeProvider',
         controller: 'LoginCtrl'
       }).
       when('/home', {
-        templateUrl: 'home.html',
+        templateUrl: 'bootstraphome.html',
         controller: 'LoginCtrl'
       }).
 
@@ -64,10 +64,13 @@ app.service('UserService', function () {
 
 
 app.controller('NavBarCtrl', function ($scope, $location, UserService) {
-      $scope.isVisible = function() {
-       return '/login' !== $location.path();
-    };   
-    $scope.showNav = '/login' !== $location.path();   
+  $scope.login_email = UserService.getLoggedIn();
+
+  $scope.isVisible = function () {
+    return '/login' !== $location.path();
+  };
+  $scope.showNav = '/login' !== $location.path();
+
 });
 app.controller('LogoutCtrl', function ($scope, UserService) {
   UserService.setLoggedIn('');
@@ -137,7 +140,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.selectedto = undefined;
   $scope.selectedfrom = undefined;
   $scope.login_email = UserService.getLoggedIn();
-
+  $scope.found = '';
 
   var param_name = '';
   $scope.GetRides = function (paramname, paramvalue) {
@@ -440,8 +443,9 @@ app.controller('FundooCtrl', function ($scope, $window) {
 
 app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, UserService) {
   $scope.spinner = false;
-  
+
   $scope.login_email = UserService.getLoggedIn();
+
   if ($scope.login_email.length == 0)
     $scope.showNav = false;
   else
@@ -461,10 +465,10 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
       // when the response is available
       //      $scope.loginResult = response.data;
       $scope.spinner = false;
-      
+
       if (angular.isObject(response) && response.data.toString() === "User Not Found") {
         $scope.loginResult = "Id Not Found";
-        
+
         if (window.confirm("Email ID not found in App database. Would you like to create an account with this id?") == true) {
           $location.path("/register");
           return;
@@ -474,7 +478,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
         
         UserService.setLoggedIn(login.email);
         $scope.loginResult = response.data[0].username;
-        $scope.showNav = true;       
+        $scope.showNav = true;
         $scope.login_email = login.email;
         $location.path("/home");
         return;
@@ -484,7 +488,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
       // or server returns response with an error status.
       //      $scope.loginResult = "Could not submit login request.." + error;
       $scope.spinner = false;
-      
+
       $scope.loginResult = "Could not submit request.." + error;
       //      $scope.login_email = '';
     });

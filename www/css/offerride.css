@@ -22,8 +22,8 @@
 }
 
 body {
-  background: #2c3338;
-  color: #606468;
+/*  background: #2c3338;
+  color: #606468;*/
   font: 87.5%/1.5em 'Open Sans', sans-serif;
   margin: 0;
 }
@@ -61,14 +61,7 @@ p {
   clear: both;
 }
 
-.container {
-  left: 50%;
-  position: fixed;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
+
 
 /* ---------- LOGIN ---------- */
 #login {
@@ -76,9 +69,8 @@ p {
 }
 
 #login form span {
-  background-color: #363b41;
-  border-radius: 3px 0px 0px 3px;
-  color: #606468;
+/*  background-color: #363b41;
+ color: #606468;*/
   display: block;
   float: left;
   height: 28px;

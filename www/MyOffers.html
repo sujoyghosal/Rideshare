@@ -2,28 +2,26 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="css/cpstylesheet.css">
 </head>
 
 <body>
-      <br>
-      <br>
-      <br>
-      <br>
+  <br>
+  <br>
 
-    <div ng-app="myApp" ng-controller="RidesCtrl" margin: auto border: 1px solid red>
-      <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
-      <br>
-      <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+  <div ng-app="myApp" ng-controller="RidesCtrl">
+    <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
+    <br>
+    <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 
-      <p>
-        <p/><b/>{{found}}
-        <br>
-        <br>
-        <label ng-show="allrides">Search in Rides:
-          <input ng-model="searchText">
-        </label>
-        <table ng-show="allrides">
+    <p>
+      <p/><b/>{{found}}
+      <br>
+      <br>
+      <label ng-show="allrides">Search in Rides:
+        <input ng-model="searchText">
+      </label>
+      <div class="table-responsive">
+        <table class="table table-condensed">
           <thead>
             <tr>
               <th>
@@ -67,9 +65,9 @@
             </td>
           </tr>
         </table>
-      </p>
+    </p>
     </div>
-  </center>
+    </center>
 </body>
 
 </html>
