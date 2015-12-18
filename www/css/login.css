@@ -59,14 +59,6 @@ p {
   clear: both;
 }
 
-.container {
-  left: 50%;
-  position: fixed;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
 
 /* ---------- LOGIN ---------- */
 #login {
@@ -108,7 +100,7 @@ p {
 input[type="email"], input[type="password"], input[type="datetime-local"] {
   background-color: #3b4148;
   border-radius: 0px 3px 3px 0px;
-  color: #606468;
+  color: #eee;
   margin-bottom: 1em;
   padding: 0 16px;
   width: 230px;
