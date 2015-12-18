@@ -65,7 +65,7 @@ app.service('UserService', function () {
 
 app.controller('NavBarCtrl', function ($scope, $location, UserService) {
   $scope.login_email = UserService.getLoggedIn();
-
+  
   $scope.isVisible = function () {
     return '/login' !== $location.path();
   };
