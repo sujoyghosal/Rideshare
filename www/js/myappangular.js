@@ -65,12 +65,20 @@ app.service('UserService', function () {
 
 app.controller('NavBarCtrl', function ($scope, $location, UserService) {
   $scope.login_email = UserService.getLoggedIn();
+  $scope.isCollapsed = true;
   
   $scope.isVisible = function () {
     return '/login' !== $location.path();
   };
+  $scope.toggle = function () {
+    alert($scope.isCollapsed);
+    if ($scope.isCollapsed)
+      $scope.isCollapsed = false;
+    else
+      $scope.isCollapsed = true;
+  }
   $scope.showNav = '/login' !== $location.path();
-  if(!$scope.login_email || $scope.login_email.length <= 1){
+  if (!$scope.login_email || $scope.login_email.length <= 1) {
     $location.path('/login');
   }
 
@@ -448,7 +456,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
   $scope.spinner = false;
 
   $scope.login_email = UserService.getLoggedIn();
-  
+
   if ($scope.login_email.length == 0)
     $scope.showNav = false;
   else
