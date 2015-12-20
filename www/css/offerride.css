@@ -38,7 +38,7 @@ a:hover {
 }
 
 input {
-  border: none;
+  border-color: #606468;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5em;
@@ -102,6 +102,7 @@ p {
 input[type="email"], input[type="password"], input[type="datetime-local"] {
   background-color: #3b4148;
   border-radius: 0px 3px 3px 0px;
+  border-color: #d44179;
   color: #606468;
   margin-bottom: 1em;
   padding: 0 16px;

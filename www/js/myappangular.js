@@ -70,13 +70,7 @@ app.controller('NavBarCtrl', function ($scope, $location, UserService) {
   $scope.isVisible = function () {
     return '/login' !== $location.path();
   };
-  $scope.toggle = function () {
-    alert($scope.isCollapsed);
-    if ($scope.isCollapsed)
-      $scope.isCollapsed = false;
-    else
-      $scope.isCollapsed = true;
-  }
+  
   $scope.showNav = '/login' !== $location.path();
   if (!$scope.login_email || $scope.login_email.length <= 1) {
     $location.path('/login');

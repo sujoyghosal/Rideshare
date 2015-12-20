@@ -2,15 +2,17 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="css/rating.css">
+  <link rel="stylesheet" href="css/offerride.css">
+  <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
   <br>
   <br>
-<br>
-<br>
-<br>
-<br>
+  
+  <br>
+  <br>
   <div ng-app="myApp" ng-controller="RidesCtrl">
     <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
     <br>
@@ -23,54 +25,43 @@
       <label ng-show="allrides">Search in Rides:
         <input ng-model="searchText">
       </label>
-      <div class="table-responsive">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>
-                <h2/>Number</th>
-              <th>
-                <h2/>Name</th>
-              <th>
-                <h2/>City</th>
-              <th>
-                <h2/>Mobile</th>
-              <th>
-                <h2/>Start Time</th>
-              <th>
-                <h2/>From</th>
-              <th>
-                <h2/>To</th>
-              <th>
-                <h2/>Max Passengers</th>
-              <th>
-                <h2/>Current Count</th>
-              <th ng-hide="true">
-                <h2/>UUID</th>
-              <th>
-                <h2/>Action</th>
-
-            </tr>
-          </thead>
-          <tr ng-repeat="row in cityRides | orderBy : '-time' | filter:searchText">
-            <td>{{$index + 1}}</td>
-            <td>{{row.offeredby}}</td>
-            <td>{{row.city}}</td>
-            <td>{{row.phone_number}}</td>
-            <td>{{row.time}}</td>
-            <td>{{row.from_place}}</td>
-            <td>{{row.to_place}}</td>
-            <td>{{row.maxcount}}</td>
-            <td>{{row.currentcount}}</td>
-            <td ng-hide="true">{{row.uuid}}</td>
-            <td>
-              <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
-            </td>
+      <table class="table table-bordered" ng-show="allrides">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>City</th>
+            <th>Offered By</th>
+            <th>EMail</th>
+            <th>Mobile</th>
+            <th>Start Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Via</th>
+            <th>Filled</th>
+            <th>Action</th>
           </tr>
-        </table>
+        </thead>
+        <tr ng-repeat="row in cityRides | orderBy : '-time' | filter:searchText">
+          <td>{{$index + 1}}</td>
+          <td>{{row.city}}</td>
+          <td>{{row.offeredby}}</td>
+          <td>{{row.email}}</td>
+          <td>{{row.phone_number}}</td>
+          <td>{{row.time | date: 'medium'}}</td>
+          <td>{{row.from_place}}</td>
+          <td>{{row.to_place}}</td>
+          <td>{{row.via}}</td>
+          <td ng-controller="FundooCtrl" white-space="nowrap">
+            <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>
+          </td>
+          <td>
+            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
+          </td>
+        </tr>
+      </table>
     </p>
-    </div>
-    </center>
+  </div>
+  </center>
 </body>
 
 </html>
