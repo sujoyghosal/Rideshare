@@ -50,7 +50,7 @@
 							<td>
 								<h4>Subscribe for notifications when someone is going to these places</h4></td>
 							<td>
-								<input type="text" name="selectedto" id="selectedto" class="form-control" ng-model="data.selectedto" typeahead="item.to_place as item.to_place  for item in cityRides | filter:{to_place:$viewValue} | orderBy: 'to_place' | unique: 'to_place'">
+								<input type="text" name="selectedto" id="selectedto" autocomplete="off" class="form-control" ng-model="data.selectedto" typeahead="item.to_place as item.to_place  for item in cityRides | filter:{to_place:$viewValue} | orderBy: 'to_place' | unique: 'to_place'">
 							</td>
 							<td>
 								<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'to', login_user)">
