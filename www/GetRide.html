@@ -2,9 +2,10 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="css/rating.css">
   <link rel="stylesheet" href="css/offerride.css">
   <link rel="stylesheet" href="css/responsivetable.css">
+  <link rel="stylesheet" href="css/rating.css">
+
 </head>
 
 <body>
@@ -12,9 +13,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
     <script src="js/myappangular.js"></script>
-    <p align=left>Welcome {{login_email}}!!</p>
-    <br>
-    <br>
+    <p align=left>Welcome {{fullname}}!!</p>
     <div ng-app="myApp" ng-controller="RidesCtrl">
       <label for="citySelect">
         <p/>Select City: </label>
@@ -31,12 +30,12 @@
         <option value="Kochi">Kochi</option>
       </select>
       <br>
-      <br>
       <button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Rides in {{data.citySelect}}</button>
       </t>
       <br>
       <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-      <p>        
+      <center/>{{result}}
+      <p>
         <br>
         <br>
         <label ng-show="allrides">Sort By:
@@ -75,7 +74,7 @@
                 <td>{{row.offeredby}}</td>
                 <td>{{row.email}}</td>
                 <td>{{row.phone_number}}</td>
-                <td>{{row.time | date: 'medium'}}</td>
+                <td>{{row.time | date: 'short'}}</td>
                 <td>{{row.from_place}}</td>
                 <td>{{row.to_place}}</td>
                 <td>{{row.via}}</td>

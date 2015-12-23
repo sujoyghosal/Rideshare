@@ -28,18 +28,18 @@
 			border: 6px;
 			border-bottom: 1px solid #eee; 
 			position: relative;
-			padding-left: 50%; 
+			padding-left: 40%;
+			width: auto;
 		}
 		
 		td:before { 
 			/* Now like a table header */
 			position: relative;
 			/* Top/left values mimic padding */
-      border: 6px;
+      		border: 6px;
 			left: 6px;
-			width: 45%; 
+			width: 40%; 
 			padding-right: 10px; 
-			white-space: nowrap;
       		font-weight: bold;
 		}
 		
@@ -55,7 +55,7 @@
 		td:nth-of-type(7):before { content: "From: "; }
 		td:nth-of-type(8):before { content: "To: "; }
 		td:nth-of-type(9):before { content: "Via: "; }
-		td:nth-of-type(10):before { content: "Filled: "; }
+		td:nth-of-type(10):before { content: "Filled: ";}
 		td:nth-of-type(11):before { content: "Action: "; }
 	}
 	

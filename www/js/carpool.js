@@ -421,6 +421,8 @@ function createrideshare(e, req, res) {
         });
     });
 }
+
+
 var geo_query = '';
 app.get('/vicinityrideshare', function(req, res) {
   		var criteria = 'location within ' + req.param('radius') + ' of ' + req.param('latitude') + ', ' + req.param('longitude');
@@ -507,6 +509,35 @@ function createGroup(e, req, res) {
             res.send(err);
         } else {
             res.send(201);
+        }
+    });
+}
+
+app.get('/addusertogroup', function (req, res) {
+
+    var group = req.param('group');
+    var user = req.param('user');
+    var options = {
+        method: 'POST',
+        endpoint: 'groups/' + group + '/users/' + user
+    };
+
+
+    if (loggedIn === null) {
+        logIn(req, res, function () {
+            addUserToGroup(options, req, res);
+        });
+    } else {
+        addUserToGroup(options, req, res);
+    }
+});
+
+function addUserToGroup(e, req, res) {
+    loggedIn.request(e, function (err, data) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(data);
         }
     });
 }

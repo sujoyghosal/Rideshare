@@ -18,15 +18,12 @@ ul.rating {
 }
 
 .rating .filled {
-  color: #21568b;
+  color: darkblue;
 }
 
 * { 
 	margin: 0; 
 	padding: 0; 
-}
-body { 
-	font: 14px/1.4 Georgia, Serif; 
 }
 #page-wrap {
 	margin: 50px;

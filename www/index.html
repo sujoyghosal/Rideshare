@@ -23,12 +23,11 @@
 <body>
 	<div id='cssmenu' ng-controller="NavBarCtrl" ng-show="isVisible()">
 		<ul>
-			<li><a href='#'>{{login_email}}</a></li>
-			<li><a href='#'>Home</a></li>
+			<li><a href='#/home'>Home</a></li>
 			<li><a href='#'>Offer Ride</a>
 				<ul>
 					<li><a href='#/offerride'>Create Ride</a></li>
-					<li><a href='#/offershistory'>Cancel Ride<Ride></Ride></a></li>
+					<li><a href='#/offershistory'>Cancel Ride</a></li>
 				</ul>
 			</li>
 			<li><a href='#'>Get Ride</a>
@@ -60,7 +59,9 @@
 	</div>
 	<br>
 	<br>
-	<center>
+		<center>
+			<br>
+			<br>
 		<div ng-controller="LoginCtrl" class="container">
 			<div class="col-md-9">
 				<div ng-view></div>
