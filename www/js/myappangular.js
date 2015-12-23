@@ -244,7 +244,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     var updateURL = "http://sujoyghosal-test.apigee.net/rideshare/acceptride?uuid=" + row.uuid
       + "&passenger_name=Login"
       + "&passenger_phone=8888888888"
-      + "&passenger_email=" + UserService.getLoggedIn();
+      + "&passenger_email=" + UserService.getLoggedIn().email;
     //   alert(row.uuid);
     $http({
       method: 'GET',
