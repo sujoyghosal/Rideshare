@@ -204,6 +204,7 @@ function acceptride(incr,uuid, req, res) {
         }
         var currentcount = rideshare.get('currentcount');
         var maxcount = rideshare.get('maxcount');
+        
         currentcount = +currentcount + (+incr);
         if(+currentcount <= +maxcount && +currentcount >= 0)
             rideshare.set('currentcount', +currentcount);

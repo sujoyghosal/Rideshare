@@ -145,11 +145,11 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
   $scope.result = '';
   $scope.fullname = UserService.getLoggedIn().fullname;
   var param_name = '';
+  
+  
   $scope.GetRides = function (paramname, paramvalue) {
     $scope.spinner = true;
-    
-    $scope.result = '';
-    if (!paramname || !paramvalue)
+      if (!paramname || !paramvalue)
       return;
     param_name = paramname.trim();
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getrides?paramname="
@@ -164,7 +164,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       $scope.spinner = false;
       $scope.cityRides = response.data;
       if(angular.isObject($scope.cityRides))
-          $scope.result = $scope.cityRides.length +  " rides found";
+          $scope.found = $scope.cityRides.length +  " rides found";
 
       $scope.allrides = true;
       $scope.cancel = false;
@@ -172,7 +172,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       $scope.spinner = false;
-      $scope.result = "Could not submit acceptance. " + error;
+//      $scope.result = "Could not submit acceptance. " + error;
       $scope.allrides = false;
     });
 
@@ -300,7 +300,7 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       $scope.spinner = false;
-      $scope.found = "Could not submit acceptance. " + error;
+      alert("Could not submit acceptance. " + error);
       $scope.accepted = false;
     });
 
