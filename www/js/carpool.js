@@ -88,8 +88,8 @@ function getrideshare(req, res) {
 
 var rides_query='';
 app.get('/getrides', function(req, res) {
-    paramname = req.param('paramname');
-    paramvalue = req.param('paramvalue');
+    var paramname = req.param('paramname');
+    var paramvalue = req.param('paramvalue');
     rides_query = {
 		type:"wiprorideshares?limit=100", //Required - the type of collection to be retrieved
           qs: {"ql": paramname +"='" + paramvalue + "'"}
@@ -140,7 +140,7 @@ app.get('/acceptride', function(req, res) {
 	    "passenger_name": req.param('passenger_name'),
         "passenger_phone": req.param('passenger_phone'),
         "passenger_email": req.param('passenger_email'),
-        "passenger_dept": req.param('passenger_dept')
+        "passenger_uuid": req.param('passenger_uuid')
 	};
     updateoptions = {
         "cuurentcount": currentcount,
@@ -633,7 +633,7 @@ var login_query = '';
 
 function logIn(req, res, next) {
     console.log('Logging in as %s', 'sujoyghosal');
-    ug.login('sujoyghosal', 'Kolkata1', function(err) {
+    ug.login('sujoyghosal', 'Kolkata41', function(err) {
         if (err) {
           console.log('Login failed: %s', JSON.stringify(err));
           res.jsonp(500, {error: err});

@@ -1,16 +1,19 @@
 <!doctype html>
-<html ng-app="plunker">
+<html ng-app="myApp">
   <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
-    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
-    <script src="example.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.7.0.js"></script>
+    <script src="js/myappangular.js"></script>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
   </head>
   <body>
 
-<div class='container-fluid' ng-controller="TypeaheadCtrl">
-    <pre>Model: {{selected| json}}</pre>
-    <input type="text" ng-model="selected" typeahead="item as item.to_place + ' (from ' + item.from_place + ')' for item in cityRides | filter:{to_place:$viewValue}">
+<div class='container-fluid' ng-controller="RidesCtrl">
+  
+  
+    <pre>Model: {{selected.StateCode}}</pre>
+    <input type="text" ng-model="selected" typeahead="state as state.StateDesc for state in states | filter:$viewValue | limitTo:8"  class="form-control">
+</div>
 </div>
   </body>
 </html>

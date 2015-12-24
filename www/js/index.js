@@ -63,9 +63,9 @@ var app = {
         switch (e.event) {
             case 'registered':
                 if (e.regid.length > 0) {
-                    console.log("Regid " + e.regid);
-                    alert('Device Registered to Receive Push Notifications');
-                    registerDevice(e.regid);
+                    console.log("Regid " + e.regid);                  
+ //                   registerDevice(e.regid);
+                    alert("Received GCM ID: " + e.regid);
                 }
                 break;
 
@@ -115,6 +115,7 @@ function registerDevice(regid) {
                 console.log(error);
             } else {
                 console.log("Success registering device with Apigee" + result + ", UUID=" + client.getDeviceUUID());
+                alert('Device Registered to Receive Push Notifications');
             }
         });
 

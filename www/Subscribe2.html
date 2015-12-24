@@ -50,26 +50,20 @@
 							<td>
 								<h4>Subscribe for notifications when someone is going to these places</h4></td>
 							<td>
-								<input type="text" ng-model="data.from" class="order_input" list="dataSource" placeholder="From Place" />
-								<datalist id="dataSource">
-									<option ng-repeat="rest in cityRides">{{rest.from_place}}</option>
-								</datalist>
+								<input type="text" name="selectedto" id="selectedto" autocomplete="off" class="form-control" ng-model="data.selectedto" typeahead="item.to_place as item.to_place  for item in cityRides | filter:{to_place:$viewValue} | orderBy: 'to_place' | unique: 'to_place'">
 							</td>
 							<td>
-								<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'from', login_user)">
+								<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'to', login_user)">
 								</button>
 						</tr>
 						<tr>
 							<td>
 								<h4>Subscribe for notifications when someone starts from these places</h4></td>
 							<td>
-								<input type="text" ng-model="data.to" class="order_input" list="dataSource" placeholder="To Place" />
-								<datalist id="dataSource">
-									<option ng-repeat="rest in cityRides">{{rest.to_place}}</option>
-								</datalist>
+								<input type="text" name="selectedfrom" id="selectedfrom" class="form-control" ng-model="data.selectedfrom" typeahead="item.from_place as item.from_place  for item in cityRides | filter:{from_place:$viewValue} | orderBy: 'from_place' | unique: 'from_place'">
 							</td>
 							<td>
-								<input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Submit" ng-click="Subscribe(data, 'to', login_user)">
+								<input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Submit" ng-click="Subscribe(data, 'from', login_user)">
 								</button>
 					</div>
 				</table>
