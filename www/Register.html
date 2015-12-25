@@ -4,30 +4,28 @@
 <head>
 
   <meta charset="UTF-8">
-<link rel="stylesheet" href="css/offerride.css">
+  <link rel="stylesheet" href="css/offerride.css">
   <title>Wipro Rideshare</title>
 
 </head>
 
+<body ng-app="myApp">
 
-  <body ng-app="myApp">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="container">
 
-      <div id="login">
+  <br>
+  <br>
+  <div class="container">
 
-        <center><form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
+    <div id="login">
 
-          
-            <legend>
-              
-            </legend>
-          
+      <center>
+        <form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
+
+
+          <legend>
+            <h4/>YOUR INFO
+          </legend>
+          <br>
           <fieldset class="clearfix">
             <p><span class="fontawesome-user"></span>
               <input type="text" ng-model="login.fullname" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''"
@@ -58,15 +56,16 @@
 
           </fieldset>
 
-        </form></center>
-      </div>
-      <!-- end login -->
-      {{result}}
+        </form>
+      </center>
     </div>
+    <!-- end login -->
+    {{result}}
+  </div>
 
-  </body>
+</body>
 
-  </html>
+</html>
 
 </body>
 
