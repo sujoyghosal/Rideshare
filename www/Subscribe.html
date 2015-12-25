@@ -2,82 +2,82 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="css/rating.css">
-	<link rel="stylesheet" href="css/offerride.css">
-	<link rel="stylesheet" href="css/responsivetable.css">
+    <link rel="stylesheet" href="css/rating.css">
+    <link rel="stylesheet" href="css/offerride.css">
+    <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
-	<center>
-		<p align=left>Welcome {{fullname}}!!</p>
-		
-		
-		<div ng-app="myApp" ng-controller="RidesCtrl">
-			<label for="citySelect">
-				<p/>Select City: </label>
-			<br>
+    <center>
+        <p align=left>Welcome {{fullname}}!!</p>
 
-			<select name="citySelect" ng-model="data.citySelect">
-				<option value="GDC">Gurgaon</option>
-				<option value="GNDC">Greater Noida</option>
-				<option value="Kolkata">Kolkata</option>
-				<option value="Hyderabad">Hyderabad</option>
-				<option value="Pune">Pune</option>
-				<option value="Chennai">Chennai</option>
-				<option value="Bangalore">Bangalore</option>
-				<option value="Kochi">Kochi</option>
-			</select>
-			<br>
-			<br>
-			<button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Route Points in {{data.citySelect}}</button>
-			</t>
-			<br>{{found}}
-			<center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-			<p>
-				<p/><b/>
-				<br>
-				<br>
-				<table class="table table-condensed" ng-show="found.length > 0">
-					<div class='container-fluid'>
-						<thead>
-							<tr>
-								<th>EVENT TYPE</th>
-								<th>PLACE</th>
-								<th>ACTION</th>
-							</tr>
-						</thead>
-						<tr>
-							<td>
-								<h4>Subscribe for notifications when someone is going to these places</h4></td>
-							<td>
-								<input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
-								<datalist id="dataSourceFrom">
-									<option ng-repeat="rest in cityRides">{{rest.from_place}}</option>
-								</datalist>
-							</td>
-							<td>
-								<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'from', login_user)">
-								</button>
-						</tr>
-						<tr>
-							<td>
-								<h4>Subscribe for notifications when someone starts from these places</h4></td>
-							<td>
-								<input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
-								<datalist id="dataSourceTo">
-									<option ng-repeat="rest in cityRides">{{rest.to_place}}</option>
-								</datalist>
-							</td>
-							<td>
-								<input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Submit" ng-click="Subscribe(data, 'to', login_user)">
-								</button>
-					</div>
-				</table>
-				{{result}}
-			</p>
-		</div>
 
-	</center>
+        <div ng-app="myApp" ng-controller="RidesCtrl">
+            <label for="citySelect">
+                <p/>Select City: </label>
+            <br>
+
+            <select name="citySelect" ng-model="data.citySelect">
+                <option value="GDC">Gurgaon</option>
+                <option value="GNDC">Greater Noida</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kochi">Kochi</option>
+            </select>
+            <br>
+            <br>
+            <button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Route Points in {{data.citySelect}}</button>
+            </t>
+            <br>{{found}}
+            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+            <p>
+                <p/><b/>
+                <br>
+                <br>
+                <table class="table table-condensed" ng-show="found.length > 0">
+                    <div class='container-fluid'>
+                        <thead>
+                            <tr>
+                                <th>EVENT TYPE</th>
+                                <th>PLACE</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <h4>Subscribe for notifications when someone starts from these places</h4></td>
+                            <td>
+                                <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
+                                <datalist id="dataSourceFrom">
+                                    <option ng-repeat="rest in cityRides">{{rest.from_place}}</option>
+                                </datalist>
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'from', login_user)">
+                                </button>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Subscribe for notifications when someone is going to these places</h4></td>
+                            <td>
+                                <input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
+                                <datalist id="dataSourceTo">
+                                    <option ng-repeat="rest in cityRides">{{rest.to_place}}</option>
+                                </datalist>
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Submit" ng-click="Subscribe(data, 'to', login_user)">
+                                </button>
+                    </div>
+                </table>
+                {{result}}
+            </p>
+        </div>
+
+    </center>
 
 </body>
 
