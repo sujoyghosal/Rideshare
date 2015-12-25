@@ -50,8 +50,8 @@
 							<td>
 								<h4>Subscribe for notifications when someone is going to these places</h4></td>
 							<td>
-								<input type="text" ng-model="data.from" class="order_input" list="dataSource" placeholder="From Place" />
-								<datalist id="dataSource">
+								<input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
+								<datalist id="dataSourceFrom">
 									<option ng-repeat="rest in cityRides">{{rest.from_place}}</option>
 								</datalist>
 							</td>
@@ -63,8 +63,8 @@
 							<td>
 								<h4>Subscribe for notifications when someone starts from these places</h4></td>
 							<td>
-								<input type="text" ng-model="data.to" class="order_input" list="dataSource" placeholder="To Place" />
-								<datalist id="dataSource">
+								<input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
+								<datalist id="dataSourceTo">
 									<option ng-repeat="rest in cityRides">{{rest.to_place}}</option>
 								</datalist>
 							</td>

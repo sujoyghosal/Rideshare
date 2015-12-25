@@ -131,7 +131,7 @@ app.controller('OfferRideCtrl', function ($scope, $http, $filter, UserService) {
   };
 });
 
-app.controller('RidesCtrl', function ($scope, $http, UserService) {
+app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
   $scope.spinner = false;
   $scope.allrides = false;
   $scope.cityRides = '';
@@ -241,11 +241,13 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     $scope.uuid = '';
     $scope.result = '';
     $scope.spinner = true;
+    var loggedinUser = UserService.getLoggedIn();
     var updateURL = "http://sujoyghosal-test.apigee.net/rideshare/acceptride?uuid=" + row.uuid
-      + "&passenger_name=Login"
-      + "&passenger_phone=8888888888"
-      + "&passenger_email=" + UserService.getLoggedIn().email;
-    //   alert(row.uuid);
+      + "&passenger_name=" + loggedinUser.fullname
+      + "&passenger_phone=" + loggedinUser.phone
+      + "&passenger_email=" + loggedinUser.email
+      + "&passenger_uuid=" + loggedinUser.uuid;
+    console.log("Accept Ride URL is: " + updateURL);
     $http({
       method: 'GET',
       url: updateURL
@@ -353,8 +355,10 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
       alert("Successfully Cancelled.")
       $scope.uuid = row.uuid;
       $scope.cancel = true;
-      $scope.GetRides("email", 'sujoy.ghosal4@gmail.com');
       $scope.result = "Successfully Cancelled This Offer";
+      var offerDate = new Date(row.time);     
+      $scope.SendPush(row, "I have cancelled the ride from " + 
+      row.from_place + " to " + row.to_place + " with start time " + $filter('date')(offerDate, 'medium')  + ". - " + row.offeredby);
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
@@ -399,7 +403,53 @@ app.controller('RidesCtrl', function ($scope, $http, UserService) {
     });
   };
 
-});
+
+$scope.SendPush = function (row, text) { 
+    //   $scope.uuid = ''; 
+    //    $scope.GetRideAcceptances(row); 
+//    alert(text);
+    $scope.spinner = true;
+ /*   
+    if(!angular.isObject(row.passengers) || !angular.isArray(row.passengers) || row.passengers.length <= 0){
+      alert("No passengers have accepted this ride offer so far");
+      return;
+    }
+    var users = [];
+    var passengers = [];
+    passengers = JSON.parse(JSON.stringify(row.passengers));
+    for(var i=0; +i<passengers.length; +i++) {
+      var user = passengers[+i];
+      users.push(user.passenger_uuid);     
+     } */
+//    var notifyURL = encodeURI("http://sujoyghosal-test.apigee.net/rideshare/notifyoffercancel?userids=" 
+//            + JSON.stringify(users) + "&text=" + text);
+    var notifyURL = encodeURI("http://sujoyghosal-test.apigee.net/sendpush/devicespush?regids=APA91bFlfhBLOgGXVij5RZyojydpiMFnNXTEk4fa-zWALSjUArxIaK1fWKZEllHzs2ztVDAY6P8mpZnPuXDxKYHoi3ZIRRwlZzTqigxEp6TOc32VcFM1gfiQHsMLj8r9btENAiaqcGBP&text=" + text);
+     
+    $http({
+      method: 'GET',
+      url: notifyURL
+    }).then(function successCallback(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.spinner = false;
+      alert("Successfully Sent Push Messages to All Passengers.");      
+      $scope.uuid = row.uuid;
+      $scope.cancel = true;
+      $scope.result = "Successfully Sent Cancellation Message to All Passengers.";
+    }, function errorCallback(error) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      $scope.spinner = false;
+      $scope.result = "Could not send push messages. ";
+      $scope.accepted = false;
+      $scope.uuid = row.uuid;
+      $scope.cancel = false;
+    });
+  };
+})
+
+
+
 app.controller('FundooCtrl', function ($scope, $window) {
   $scope.rating = 5;
   $scope.saveRatingToServer = function (rating) {
@@ -496,7 +546,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
       //      $scope.loginResult = "Could not submit login request.." + error;
       $scope.spinner = false;
 
-      $scope.loginResult = "Could not submit request.." + error;
+      $scope.loginResult = "Could not submit request..";
       //      $scope.login_email = '';
     });
   };
