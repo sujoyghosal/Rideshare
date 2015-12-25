@@ -31,13 +31,13 @@
 			<br>
 			<button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Route Points in {{data.citySelect}}</button>
 			</t>
-			<br>{{found + cityRides.length}}
+			<br>{{found}}
 			<center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 			<p>
 				<p/><b/>
 				<br>
 				<br>
-				<table class="table table-condensed">
+				<table class="table table-condensed" ng-show="found.length > 0">
 					<div class='container-fluid'>
 						<thead>
 							<tr>

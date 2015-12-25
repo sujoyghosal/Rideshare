@@ -186,9 +186,9 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     var getURL = "http://sujoyghosal-test.apigee.net/rideshare/creategroup?group=";
     var group = '';
     if (type === "to") {
-      group = "TO-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.selectedto.toString().trim().toUpperCase();
+      group = "TO-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.to.toString().trim().toUpperCase();
     } else if (type === "from") {
-      group = "FROM-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.selectedfrom.toString().trim().toUpperCase();
+      group = "FROM-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.from.toString().trim().toUpperCase();
     } else return;
 
     getURL = encodeURI(getURL + group);
@@ -226,7 +226,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
       // this callback will be called asynchronously
       // when the response is available
       $scope.spinner = false;
-      $scope.result = "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES ";     
+      $scope.result = "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES FOR EVENT " + group;     
       // $scope.found  = "Active ride offers for " + param_name;
     }, function errorCallback(error) {
       // called asynchronously if an error occurs
