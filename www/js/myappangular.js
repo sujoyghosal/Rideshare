@@ -126,6 +126,8 @@ app.controller('OfferRideCtrl', function ($scope, $http, $filter, UserService) {
             $scope.loginResult = "Success";
             $scope.spinner = false;
             $scope.status = response.statusText;
+            getUsersInGroup("TO-" + offer.city.trim().toUpperCase() + "-" + 
+            offer.to.trim().toUpperCase(),offer.from, offer.to, filteredtime, offer.name, offer.phone);
             //      alert("Offer " + response.statusText);
 
         }, function errorCallback(error) {
@@ -134,6 +136,78 @@ app.controller('OfferRideCtrl', function ($scope, $http, $filter, UserService) {
             $scope.loginResult = "Error Received from Server.." + error.toString();
             $scope.spinner = false;
             $scope.status = error.statusText;
+        });
+    };
+        $scope.SendPush = function (gcmids, text) { 
+        //   $scope.uuid = ''; 
+        //    $scope.GetRideAcceptances(row); 
+        //    alert(text);
+        $scope.spinner = true;
+        /*   
+           if(!angular.isObject(row.passengers) || !angular.isArray(row.passengers) || row.passengers.length <= 0){
+             alert("No passengers have accepted this ride offer so far");
+             return;
+           }
+           var users = [];
+           var passengers = [];
+           passengers = JSON.parse(JSON.stringify(row.passengers));
+           for(var i=0; +i<passengers.length; +i++) {
+             var user = passengers[+i];
+             users.push(user.passenger_uuid);     
+            } */
+        //    var notifyURL = encodeURI("http://sujoyghosal-test.apigee.net/rideshare/notifyoffercancel?userids=" 
+        //            + JSON.stringify(users) + "&text=" + text);
+        var notifyURL = encodeURI("http://sujoyghosal-test.apigee.net/sendpush/devicespush?regids=" + gcmids + "&text=" + text);
+
+        $http({
+            method: 'GET',
+            url: notifyURL
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $scope.spinner = false;
+            alert("Successfully Sent Push Messages to All Passengers.");
+            $scope.result = "Successfully Sent Push Messages to Subscribed Users for these locations.";
+        }, function errorCallback(error) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            $scope.spinner = false;
+            $scope.result = "Could not send push messages. ";
+         });
+    };
+    var getUsersInGroup = function (group, from, to, time, by, phone) {
+        $scope.spinner = true;   
+        //first create group with id=<city>-<place>
+        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getusersingroup?group=" + group;
+        getURL = encodeURI(getURL);
+        $http({
+            method: 'GET',
+            url: getURL
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $scope.spinner = false;
+            var users = [];
+            var gcmids = '';
+            users = response.data;
+            for (var i = 0; i < users.length; i++) {
+                var gcms = [];
+                gcms = users[i].gcm_ids;
+                for (var j = 0; j < gcms.length; j++) {
+                 //   gcmids.push(gcms[j]);
+                     gcmids += gcms[j] + "^";
+                }
+            }
+            
+            $scope.SendPush(gcmids, "A new rideshare created by " + by + "(ph: " + phone +  "), starting at " + time + " from " + from + " to " + to);
+               
+            // $scope.found  = "Active ride offers for " + param_name;
+        }, function errorCallback(error) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            $scope.spinner = false;
+            $scope.groupusers = "ERROR GETTING GROUP USERS ";
+            $scope.allrides = false;
         });
     };
 });
@@ -150,6 +224,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     $scope.login_email = UserService.getLoggedIn().email;
     $scope.found = '';
     $scope.result = '';
+    $scope.groupusers = [];
     $scope.fullname = UserService.getLoggedIn().fullname;
     var param_name = '';
 
@@ -244,6 +319,29 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         });
     };
 
+    var getUsersInGroup = function (group) {
+        $scope.spinner = true;   
+        //first create group with id=<city>-<place>
+        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getusersingroup?group=" + group;
+        getURL = encodeURI(getURL);
+        $http({
+            method: 'GET',
+            url: getURL
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $scope.spinner = false;
+            $scope.groupusers = response;     
+            // $scope.found  = "Active ride offers for " + param_name;
+        }, function errorCallback(error) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            $scope.spinner = false;
+            $scope.groupusers = "ERROR GETTING GROUP USERS ";
+            $scope.allrides = false;
+        });
+    };
+
 
     $scope.Settings = function (settings, uuid) {
         alert(settings + "," + uuid);
@@ -252,7 +350,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         $scope.spinner = true;   
         //first create group with id=<city>-<place>
         var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateuser?uuid=" + uuid + "&starttime=" + filteredfromtime
-        + "&stoptime=" + filteredtotime + "&pushon=" + settings.pushon;
+            + "&stoptime=" + filteredtotime + "&pushon=" + settings.pushon;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -271,7 +369,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             $scope.allrides = false;
         });
     };
-    
+
     $scope.AcceptRide = function (row) {
         $scope.uuid = '';
         $scope.result = '';
