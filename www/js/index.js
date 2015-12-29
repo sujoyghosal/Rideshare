@@ -66,6 +66,10 @@ var app = {
                     console.log("Regid " + e.regid);                  
  //                   registerDevice(e.regid);
                     alert("Received GCM ID: " + e.regid);
+                  httpGetAsync("http://sujoyghosal-test.apigee.net/rideshare/attachgcmidtouser?uuid=" 
+                  + user_id + "&gcmid=" + e.regid, function(data){
+                      console.log("Response from attachgcmidtouser: " + data);
+                  });
                 }
                 break;
 
@@ -84,6 +88,16 @@ var app = {
         }
     }
 
+};
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
 };
 function registerDevice(regid) {
     var orgName = "sujoyghosal";

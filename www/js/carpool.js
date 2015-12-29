@@ -28,7 +28,7 @@ var ug = new usergrid.client({
     'orgName': 'sujoyghosal',
     'appName': 'rideshare',
     'clientId': 'YXA6cRy90I7XEeW3w8FZA2DhQg',
-    'clientSecret': 'YXA6klSQuhhDc30tyosetUTaP_HAaFY',
+    'clientSecret': 'YXA6Ia6ex7xPsJK7hrhLky5ZvP03CbQ',
     logging:    true
 });
 
@@ -122,8 +122,80 @@ function getrides(req, res) {
         res.jsonp(allrideshare);
     });
 }
+var group_query = '';
+app.get('/getusersingroup', function(req, res) {
+    var group = req.param('group');
+    
+    group_query = {
+		method: 'GET',
+        endpoint: 'groups/' + group + '/users/'
+	};
+	
+    if (loggedIn === null) {
+      logIn(req, res, getusersingroup);
+    } else {
+      getusersingroup(req, res);
+    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
 
 
+function getusersingroup(req, res) {
+  loggedIn.request(group_query, function (err, data) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+            res.send(data.entities);
+        }
+    });
+}
+
+var gcmids_query = '';
+var gcmid = '';
+app.get('/attachgcmidtouser', function(req, res) {
+    gcmid = req.param('gcmid');
+    var uuid = req.param('uuid');
+    
+    gcmids_query = {
+        type: 'user',
+        uuid: req.param('uuid')
+    };
+	
+    if (loggedIn === null) {
+      logIn(req, res, attachgcmidtouser);
+    } else {
+      attachgcmidtouser(req, res);
+    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+
+function attachgcmidtouser(req, res) {
+   
+  loggedIn.getEntity(gcmids_query, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+          //  res.send(entity);
+            var gcm_ids = [];
+            if("gcm_ids" in entity._data)
+                gcm_ids = entity._data.gcm_ids;
+//            res.send(gcm_ids);
+//            return;
+            if(gcm_ids.indexOf(gcmid) > -1){
+                res.send("SUCCESS");
+                return;
+            }
+            gcm_ids.push(gcmid);
+            entity.set('gcm_ids', gcm_ids);
+            entity.save(function (err) {
+            if (err) {
+                res.jsonp(500, "ERROR");
+                return;
+            }
+            res.send(gcm_ids);
+        });
+        }
+    });
+}
 var uuid='';
 var currentcount='';
 var maxcount='';
@@ -490,7 +562,8 @@ app.get('/creategroup', function (req, res) {
         method: 'POST',
         endpoint: 'groups',
         body: {
-            path: group
+            path: group,
+            name: group
         }
     };
 
