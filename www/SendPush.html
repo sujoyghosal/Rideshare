@@ -3,7 +3,6 @@
 
 <head>
 	<link rel="stylesheet" href="css/rating.css">
-	<link rel="stylesheet" href="css/offerride.css">
 	<link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
@@ -17,7 +16,7 @@
   </h4>
 	<br>
 	<br>
-	<div ng-app="myApp" ng-controller="RidesCtrl" margin: auto border: 1px solid red>
+	<div ng-app="myApp" ng-controller="RidesCtrl">
 		<button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
 		<br>
 		<center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
@@ -29,6 +28,7 @@
 			<label>Search in Rides:
 				<input ng-model="searchText">
 			</label>
+            <div class="container">
 			<table class="table table-bordered" ng-show="allrides">
 				<thead>
 					<tr>
@@ -37,6 +37,7 @@
 						<th>Offered By</th>
 						<th>EMail</th>
 						<th>Mobile</th>
+                        <th>Vehicle</th>
 						<th>Start Time</th>
 						<th>From</th>
 						<th>To</th>
@@ -51,6 +52,7 @@
 					<td>{{row.offeredby}}</td>
 					<td>{{row.email}}</td>
 					<td>{{row.phone_number}}</td>
+                    <td>{{row.vehicle_type}}</td>
 					<td>{{row.time | date: 'medium'}}</td>
 					<td>{{row.from_place}}</td>
 					<td>{{row.to_place}}</td>
@@ -60,10 +62,11 @@
 					</td>
 					<td>
 						<input type=text name="push" ng-model="pushMessage" placeholder="I am starting now." ng-minlength="2" ng-required="true">
-						<button class="btn btn-primary btn-md" ng-click="SendPush(row,pushMessage)">Send Message</button>
+						<button class="btn btn-primary btn-md" ng-click="NotifyPassengersInRide(row.uuid,pushMessage)">Send Message</button>
 					</td>
 				</tr>
 			</table>
+            </div>
 		</p>
 	</div>
 	</center>

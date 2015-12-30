@@ -2,100 +2,102 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="css/responsivetable.css">
-  <link rel="stylesheet" href="css/rating.css">
-  <link rel="stylesheet" href="css/offerride.css">
+    <link rel="stylesheet" href="css/responsivetable.css">
+    <link rel="stylesheet" href="css/rating.css">
 </head>
 
 <body>
-  <center>
+    <center>
 
-    <p align=left>Welcome {{fullname}}!!</p>
-    <div ng-app="myApp" ng-controller="RidesCtrl">
-      <label for="citySelect">
-        <p/>Select City: </label>
-      <br>
+        <p align=left>Welcome {{fullname}}</p>
+        <div ng-app="myApp" ng-controller="RidesCtrl">
+            <label for="citySelect">
+                <p/>Select City: </label>
+            <br>
 
-      <select name="citySelect" ng-model="data.citySelect">
-        <option value="GDC">Gurgaon</option>
-        <option value="GNDC">Greater Noida</option>
-        <option value="Kolkata">Kolkata</option>
-        <option value="Hyderabad">Hyderabad</option>
-        <option value="Pune">Pune</option>
-        <option value="Chennai">Chennai</option>
-        <option value="Bangalore">Bangalore</option>
-        <option value="Kochi">Kochi</option>
-      </select>
-      <br>
-      <br>
-      <button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Rides in {{data.citySelect}}</button>
-      </t>
-      <br>
-      <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-      <center>
-        {{found}}
-        <br> 
-      </center>
-      <p>
-        <br>
-        <label ng-show="allrides">Sort By:
-          <select name="sort" ng-model="data.sortby">
-            <option value="offeredby">Name</option>
-            <option value="phone_number">Phone</option>
-            <option value="time">Start Time</option>
-            <option value="from_place">From</option>
-            <option value="to_place">To</option>
-            <option value="currentcount">Filled</option>
-          </select>
-          <label ng-show="allrides">Search in Rides:
-            <input ng-model="searchText">
-          </label>
-          <br>
-          <div class="container">
-            <table class="table table-bordered" id="ridestable" ng-show="allrides" id="searchTextResults">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>City</th>
-                  <th>Offered By</th>
-                  <th>EMail</th>
-                  <th>Mobile</th>
-                  <th>Start Time</th>
-                  <th>From</th>
-                  <th>To</th>
-                  <th>Via</th>
-                  <th>Filled</th>
-                  <th>Join Ride</th>
-                </tr>
-              </thead>
-              <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
-                <td>{{$index + 1}}</td>
-                <td>{{row.city}}</td>
-                <td>{{row.offeredby}}</td>
-                <td>{{row.email}}</td>
-                <td>{{row.phone_number}}</td>
-                <td>{{row.time | date: 'short'}}</td>
-                <td>{{row.from_place}}</td>
-                <td>{{row.to_place}}</td>
-                <td>{{row.via}}</td>
-                <td ng-controller="FundooCtrl" white-space="nowrap">
-                  <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>
-                </td>
-                <td ng-hide="uuid === row.uuid && cancel">
-                  <button class="btn btn-primary btn-md" ng-click="AcceptRide(row)">Accept Ride</button>
-                </td>
-                <td ng-show="uuid === row.uuid && cancel">
-                  <button class="btn btn-primary btn-md" ng-click="CancelRide(row, false)">Cancel Ride</button>
-                </td>
-              </tr>
-            </table>
-                   <br><b>{{result}}</b>
+            <select name="citySelect" ng-model="data.citySelect">
+                <option value="GDC">Gurgaon</option>
+                <option value="GNDC">Greater Noida</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kochi">Kochi</option>
+            </select>
+            <br>
+            <br>
+            <button type="button" class="btn btn-primary btn-md" ng-click="GetRides('city',data.citySelect)">Fetch Rides in {{data.citySelect}}</button>
+            </t>
+            <br>
+            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+            <center>
+                {{found}}
+                <br>
+            </center>
+            <p>
+                <br>
+                <label ng-show="allrides">Sort By:
+                    <select name="sort" ng-model="data.sortby">
+                        <option value="offeredby">Name</option>
+                        <option value="phone_number">Phone</option>
+                        <option value="time">Start Time</option>
+                        <option value="from_place">From</option>
+                        <option value="to_place">To</option>
+                        <option value="currentcount">Filled</option>
+                    </select>
+                    <label ng-show="allrides">Search in Rides:
+                        <input ng-model="searchText">
+                    </label>
+                    <br>
+                    <div class="container">
+                        <br><b>{{result}}</b>
+                        <table class="table table-bordered" id="ridestable" ng-show="allrides" id="searchTextResults">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>City</th>
+                                    <th>Offered By</th>
+                                    <th>EMail</th>
+                                    <th>Mobile</th>
+                                    <th>Vehicle</th>                             
+                                    <th>Start Time</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Via</th>
+                                    <th>Filled</th>
+                                    <th>Join Ride</th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
+                                <td>{{$index + 1}}</td>
+                                <td>{{row.city}}</td>
+                                <td>{{row.offeredby}}</td>
+                                <td>{{row.email}}</td>
+                                <td>{{row.phone_number}}</td>                                
+                                <td>{{row.vehicle_type}}</td>
+                                <td>{{row.time | date: 'short'}}</td>
+                                <td>{{row.from_place}}</td>
+                                <td>{{row.to_place}}</td>
+                                <td>{{row.via}}</td>
+                                <td ng-controller="FundooCtrl" white-space="nowrap">
+                                    <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>
+                                </td>
+                                <td ng-hide="HaveIAcceptedThisRide(row, login_email)">
+                                    <button class="btn btn-primary btn-md" ng-click="AcceptRide(row)">Accept Ride</button>
+                                </td>
+                                <td ng-show="HaveIAcceptedThisRide(row, login_email)">
+                                    <button class="btn btn-primary btn-md" ng-click="CancelRide(row, false)">Cancel Ride</button>
+                                </td>
+                            </tr>
+                        </table>
 
-          </div>
-    </div>
-    </p>
-    </div>
-  </center>
+
+                    </div>
+        </div>
+        </p>
+        </div>
+    </center>
 </body>
 
 </html>

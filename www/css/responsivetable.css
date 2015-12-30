@@ -85,3 +85,10 @@
     color: lawngreen;
     font-size: 10pt;
   }
+  td { 
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;    
+    font-size: 8pt;
+    white-space:"nowrap";
+  }

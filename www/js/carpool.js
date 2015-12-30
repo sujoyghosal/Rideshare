@@ -140,11 +140,11 @@ app.get('/getusersingroup', function(req, res) {
 
 
 function getusersingroup(req, res) {
-  loggedIn.request(group_query, function (err, data) {
+  loggedIn.request(group_query, function (err, users) {
         if (err) {
             res.send("ERROR");
         } else {
-            res.send(data.entities);
+            res.send(users.entities);
         }
     });
 }
