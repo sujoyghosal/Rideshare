@@ -443,14 +443,18 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             $scope.spinner = false;
         });
     };
-    $scope.Settings = function (settings, uuid) {
-        alert(settings + "," + uuid);
-        var filteredfromtime = $filter('date')(new Date(settings.fromtime), 'medium');
-        var filteredtotime = $filter('date')(new Date(settings.totime), 'medium');
+    $scope.SendSettings = function (settings) {
+        var timenow = new Date();
+        
+        var starttime = new Date(settings.fromtime);
+        starttime.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+        
+        var stoptime = new Date(settings.totime);
+        stoptime.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+        
         $scope.spinner = true;   
-        //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateuser?uuid=" + uuid + "&starttime=" + filteredfromtime
-            + "&stoptime=" + filteredtotime + "&pushon=" + settings.pushon;
+        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateusersettings?uuid=" + $scope.uuid + "&starttime=" + starttime
+            + "&stoptime=" + stoptime + "&pushon=" + settings.pushon;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
