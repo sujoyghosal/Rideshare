@@ -54,12 +54,13 @@
 		td:nth-of-type(3):before { content: "Name: "; }
 		td:nth-of-type(4):before { content: "EMail: "; }
 		td:nth-of-type(5):before { content: "Mobile: "; }
-		td:nth-of-type(6):before { content: "Start Time: "; }
-		td:nth-of-type(7):before { content: "From: "; }
-		td:nth-of-type(8):before { content: "To: "; }
-		td:nth-of-type(9):before { content: "Via: "; }
-		td:nth-of-type(10):before { content: "Filled: ";}
-		td:nth-of-type(11):before { content: "Action: "; }
+        td:nth-of-type(6):before { content: "Vehicle: "; }
+		td:nth-of-type(7):before { content: "Start Time: "; }
+		td:nth-of-type(8):before { content: "From: "; }
+		td:nth-of-type(9):before { content: "To: "; }
+		td:nth-of-type(10):before { content: "Via: "; }
+		td:nth-of-type(11):before { content: "Filled: ";}
+		td:nth-of-type(12):before { content: "Action: "; }
 	}
 	
 	/* Smartphones (portrait and landscape) ----------- */
