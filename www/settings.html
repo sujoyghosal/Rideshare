@@ -31,16 +31,16 @@
                                     <input name="PushToggle" ng-model="settings.pushon" type="checkbox" ng-value="Allow Push Notifications" placeholder="Enable Push"
                                     class="form-control input-md">
                                     <br>
-                                    <label>Start Notifications From:</label>
+                                    <label>Start Notifications From: [HH:mm]</label>
                                     <input id="time" name="time" ng-model="settings.fromtime" ng-minlength="2" type="time" placeholder="Notification Start Time"
                                     class="form-control input-md" ng-required="true">
                                     <br>
-                                    <label>Stop Notifications After:</label>
+                                    <label>Stop Notifications After: [HH:mm]</label>
                                     <input id="time" name="time" ng-model="settings.totime" ng-minlength="2" type="time" placeholder="Stop notifications at"
                                     class="form-control input-md" ng-required="true">
                                     <br>
                                 </div>
-                                <input type="button" name="submit" value="SUBMIT" ng-click="Settings(setting, uuid)">
+                                <input type="button" name="submit" value="SUBMIT" ng-click="SendSettings(setting)">
                                 <br>
                                 <center/> {{result}}
                                 </p>
