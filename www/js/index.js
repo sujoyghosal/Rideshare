@@ -106,7 +106,7 @@ function registerDevice(regid) {
 
     // IMPORTANT! Change the senderID value to match your 
     // Google API project number.
-    var senderID = "733495752777";
+ //   var senderID = "733495752777";
 
     var client = null;
     console.log("Before Apigee Client constrctor");

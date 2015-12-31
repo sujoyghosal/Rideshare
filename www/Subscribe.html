@@ -8,8 +8,9 @@
 <body>
     <center>
         <p align=left>Welcome {{fullname}}!!</p>
-
-
+        <p align=left>If you are interested in specific locations or destinations, add that place name here to your point of interest.<br>Whenever anyone creates a ride offer going to that place or starting from that place you will get a notification.</p>
+        
+        
         <div ng-app="myApp" ng-controller="RidesCtrl">
             <label for="citySelect">
                 <p/>Select City: </label>
@@ -46,7 +47,7 @@
                         </thead>
                         <tr>
                             <td>
-                                <h4>Subscribe for notifications when someone starts from these places</h4></td>
+                                <p>Subscribe for notifications when someone starts from: </p></td>
                             <td>
                                 <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
                                 <datalist id="dataSourceFrom">
@@ -59,7 +60,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <h4>Subscribe for notifications when someone is going to these places</h4></td>
+                                <p>Subscribe for notifications when someone is going to: </p></td>
                             <td>
                                 <input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
                                 <datalist id="dataSourceTo">

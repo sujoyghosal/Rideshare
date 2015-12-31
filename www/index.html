@@ -2,70 +2,67 @@
 <html ng-app="myApp">
 
 <head>
-	<title>Rideshare</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Rideshare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
-	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
-	<script src="js/myappangular.js"></script>
-	<script src="js/navscript.js"></script>
-	<link rel="stylesheet" href="css/navstyle.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+    <script src="js/myappangular.js"></script>
+    <script src="js/navscript.js"></script>
+    <link rel="stylesheet" href="css/navstyle.css">
 </head>
 
 
 <body>
-	<div id='cssmenu' ng-controller="NavBarCtrl" ng-show="isVisible()">
-		<ul>
-			<li><a href='#/home'>Home</a></li>
-			<li><a href='#'>Offer Ride</a>
-				<ul>
-					<li><a href='#/offerride'>Create Ride</a></li>
-					<li><a href='#/offershistory'>Cancel Ride</a></li>
-				</ul>
-			</li>
-			<li><a href='#'>Get Ride</a>
-				<ul>
-					<li><a href='#/getride'>Get Available Rides</a></li>
-					<li><a href='#/rideshistory'>My Accepted Rides</a></li>
-				</ul>
-			</li>
-			<li><a href='#'>Notifications</a>
-				<ul>
-					<li><a href='#/subscribe'>Subscribe Events</a></li>
-					<li><a href='#/sendnotification'>Send a Notification</a></li>
-				</ul>
-			</li>
-			<li><a href='#'>Manage Account</a>
-				<ul>
-					<li><a href='#/register'>My Info</a></li>
-					<li><a href='#/settings'>Settings</a>
-						
-					</li>
-				</ul>
-			</li>
-			<li><a href='#'>{{}}</a></li>
-			<li><a href='#/login'>Logout</a></li>
-		</ul>
-	</div>
-	<br>
-	<br>
-	<center>
-		<br>
-		<br>
-		<div ng-controller="LoginCtrl" class="container">
-			<div class="col-md-9">
-				<div ng-view></div>
-			</div>
-		</div>
-	</center>
+    <div id='cssmenu' ng-controller="LoginCtrl" ng-show="isVisible()">
+        <ul>
+            <li><a href='#/home'>Home</a></li>
+            <li><a href='#'>Offer Ride</a>
+                <ul>
+                    <li><a href='#/offerride'>Create Ride</a></li>
+                    <li><a href='#/offershistory'>Cancel Ride</a></li>
+                </ul>
+            </li>
+            <li><a href='#'>Get Ride</a>
+                <ul>
+                    <li><a href='#/getride'>Get Available Rides</a></li>
+                    <li><a href='#/rideshistory'>My Accepted Rides</a></li>
+                </ul>
+            </li>
+            <li><a href='#'>Notifications</a>
+                <ul>
+                    <li><a href='#/subscribe'>Subscribe Events</a></li>
+                    <li><a href='#/sendnotification'>Send a Notification</a></li>
+                </ul>
+            </li>
+            <li><a href='#'>Manage Account</a>
+                <ul>
+                    <li><a href='#/register'>My Info</a></li>
+                    <li><a href='#/settings'>Settings</a></li>
+                </ul>
+            </li>           
+            <li><a href='#/login'>Logout</a></li>
+        </ul>
+    </div>
+    <br>
+    <br>
+    <center>
+        <br>
+        <br>
+        <div ng-controller="LoginCtrl" class="container">
+            <div class="col-md-9">
+                <div ng-view></div>
+            </div>
+        </div>
+    </center>
 
 </body>
 

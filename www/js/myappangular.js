@@ -68,20 +68,6 @@ app.service('UserService', function () {
         getLoggedIn: getLoggedIn
     };
 });
-
-
-
-app.controller('NavBarCtrl', function ($scope, $location, UserService) {
-    //  $scope.login_email = UserService.getLoggedIn().email;
-    $scope.isCollapsed = true;
-    $scope.isVisible = function () {
-        return '/login' !== $location.path();
-    };
-
-    $scope.showNav = '/login' !== $location.path();
-
-
-});
 app.controller('LogoutCtrl', function ($scope, UserService) {
     UserService.setLoggedIn('');
 });
@@ -696,7 +682,14 @@ app.controller('FundooCtrl', function ($scope, $window) {
 
 app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, UserService) {
     $scope.spinner = false;
-    //  $scope.fullname = '';
+    
+    $scope.isCollapsed = true;
+    $scope.isVisible = function () {
+        return '/login' !== $location.path();
+    };
+
+    $scope.showNav = '/login' !== $location.path();
+
     $scope.login_email = UserService.getLoggedIn().email;
 
     if (!angular.isObject($scope.login_email) || $scope.login_email.length == 0)
@@ -736,6 +729,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
                 $scope.login_email = obj.email;
                 console.log("Obj Email=" + obj.email);
                 $location.path("/home");
+//                $scope.fullname = UserService.getLoggedIn().fullname;
                 return;
             }
         }, function errorCallback(error) {
