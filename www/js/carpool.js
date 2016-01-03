@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser')
 var usergrid = require('usergrid');
 
 
@@ -20,10 +21,17 @@ var allowCrossDomain = function(req, res, next) {
 var app = express();
 app.use(allowCrossDomain);
 //app.use(express.bodyParser());
-app.use(express.urlencoded());
-app.use(express.json());
+//app.use(express.urlencoded());
+//app.use(express.json());
 // Initialize Usergrid
-
+// parse various different custom JSON types as JSON 
+app.use(bodyParser.json({ type: 'application/*+json' }))
+ 
+// parse some custom thing into a Buffer 
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
+ 
+// parse an HTML body into a string 
+app.use(bodyParser.text({ type: 'text/html' }))
 var ug = new usergrid.client({
     'orgName': 'sujoyghosal',
     'appName': 'rideshare',
@@ -184,6 +192,8 @@ function attachgcmidtouser(req, res) {
                 res.send("SUCCESS");
                 return;
             }
+            
+            
             gcm_ids.push(gcmid);
             entity.set('gcm_ids', gcm_ids);
             entity.save(function (err) {
@@ -449,6 +459,35 @@ function getpassengersforride(uuid, req, res) {
 };
 
 var arides_query='';
+app.get('/getgcmidsbyuser', function(req, res) {
+    var uuid = req.param('uuid');
+    
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getgcmidsbyuser(uuid, req, res);
+        });
+    } else {
+        getgcmidsbyuser(uuid, req, res);
+    }
+});
+
+
+function getgcmidsbyuser(uuid, req, res) {
+    var query = {
+        type: 'user',
+        uuid: uuid
+    };
+    loggedIn.getEntity(query, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+            res.send(entity._data.gcm_ids);
+            return;
+        }
+        });
+};
+
+var arides_query='';
 app.get('/getuserbyuuid', function(req, res) {
     var uuid = req.param('uuid');
     
@@ -476,8 +515,6 @@ function getuserbyuuid(uuid, req, res) {
         }
         });
 };
-
-
 
 app.get('/canceloffer', function(req, res) {
     var uuid = req.param('uuid');

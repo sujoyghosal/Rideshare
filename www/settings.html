@@ -24,18 +24,18 @@
                         <center>
                             <br>
                             <fieldset class="clearfix:after">
-
+                                <p>{{'CURRENT SETTINGS: \nPUSH ON=' + settings.pushon + ',\nStart From: ' + settings.pushstarttime + ',\nTill: ' + settings.pushstoptime}}
 
                                 <div>
                                     <label>Turn On Push Notification</label>
                                     <input name="PushToggle" ng-model="settings.pushon" type="checkbox" class="form-control input-md" checked>
                                     <br>
                                     <label>Start Notifications From: [HH:mm]</label>
-                                    <input id="time" name="time" ng-model="settings.fromtime" ng-minlength="2" type="time" placeholder="Notification Start Time"
+                                    <input id="time" name="time" ng-model="settings.fromtime" ng-minlength="2" type="time" placeholder="Notification Start Time (GMT)"
                                     class="form-control input-md" ng-required="true">
                                     <br>
                                     <label>Stop Notifications After: [HH:mm]</label>
-                                    <input id="time" name="time" ng-model="settings.totime" ng-minlength="2" type="time" placeholder="Stop notifications at"
+                                    <input id="time" name="time" ng-model="settings.totime" ng-minlength="2" type="time" placeholder="Stop notifications at (GMT)"
                                     class="form-control input-md" ng-required="true">
                                     <br>
                                 </div>

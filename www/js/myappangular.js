@@ -85,7 +85,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     $scope.cancel = false;
     $scope.uuid = UserService.getLoggedIn().uuid;
 
-    $scope.settings = UserService.getLoggedIn().settings;
+    $scope.settings = adjustsettings(UserService.getLoggedIn().settings);
     $scope.selectedto = undefined;
     $scope.selectedfrom = undefined;
     console.log("RidesCtrl User = " + JSON.stringify(UserService.getLoggedIn()));
@@ -227,7 +227,10 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             var start = new Date(settingsObject.pushstarttime);
             var stop = new Date(settingsObject.pushstoptime);
             var timenow = new Date();
-
+            start.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+            stop.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+            if (stop < start)
+                stop.setDate(timenow.getDate() + 1);
             if (timenow < start || timenow > stop) {
                 return false;
             }
@@ -268,6 +271,22 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         });
 
     };
+
+    function adjustsettings(settingsObject) {
+        if (!settingsObject)
+            return true;       
+        
+        var start = new Date(settingsObject.pushstarttime);
+        var stop = new Date(settingsObject.pushstoptime);
+        var timenow = new Date();
+        start.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+        stop.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+        if (stop < start)
+            stop.setDate(timenow.getDate() + 1);
+        settingsObject.pushstarttime = start;
+        settingsObject.pushstoptime = stop;
+        return  settingsObject;         
+    }
     $scope.HaveIAcceptedThisRide = function (row, login_email) {
         var passengers = [];
         passengers = row.passengers;
@@ -384,9 +403,9 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
                 } else {
                     console.log("SendPushToUser: Sending Push as filtered by settings opitions. " + ":"
                         + JSON.stringify(response.data.settings));
-                        SendPushToUser(obj.uuid, text);
+                    SendPushToUser(obj.uuid, text);
                 }
-                
+
                 return;
             }
         }, function errorCallback(error) {
@@ -477,7 +496,8 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     $scope.SendSettings = function (settings) {
         var starttime = new Date(settings.fromtime);
         var stoptime = new Date(settings.totime);
-
+        starttime.setFullYear(1970, 1, 1);
+        stoptime.setFullYear(2070, 1, 1);
         $scope.spinner = true;
         var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateusersettings?uuid=" + $scope.uuid + "&starttime=" + starttime
             + "&stoptime=" + stoptime + "&pushon=" + settings.pushon;
@@ -593,7 +613,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
                 $scope.allrides = false;
                 $scope.cancel = false;
             }
-            
+
         }, function errorCallback(error) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
@@ -621,7 +641,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             $scope.spinner = false;
             alert("Successfully Cancelled.")
             $scope.cancel = true;
-            $scope.GetRides('email',$scope.login_email);
+            $scope.GetRides('email', $scope.login_email);
             $scope.result = "Successfully Cancelled This Offer";
             //            GetRides('email',$scope.login_email);          
         }, function errorCallback(error) {
