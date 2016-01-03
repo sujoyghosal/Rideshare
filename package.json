@@ -1,0 +1,12 @@
+{
+  "name": "Carpool",
+  "version": "1.0.0",
+  "description": "Carpool Node.js on Docker",
+  "author": "Sujoy Ghosal <gsujoy@yahoo.com>",
+  "main": "carpool.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "body-parser": "1.14.2",
+    "usergrid": "0.10.11"
+  }
+}

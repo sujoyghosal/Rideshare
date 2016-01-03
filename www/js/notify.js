@@ -21,5 +21,5 @@ registrationIds.push('APA91bELzs0kpBK1neerYU_9iQwdX1jTvQcYdU85E9NGUyXEuuYCsrc8lR
  * Parameters: message-literal, registrationIds-array, No. of retries, callback-function
  */
 sender.send(message, registrationIds, 4, function (result) {
-    console.log(result);
+    console.log("Notify.js: send result is:" + result);
 });
