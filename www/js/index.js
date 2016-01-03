@@ -50,26 +50,33 @@ var app = {
         console.log('Received Event: ' + id);
         pushNotification = window.plugins.pushNotification;
         pushNotification.register(app.successHandler, app.errorHandler, { "senderID": "733495752777", "ecb": "app.onNotificationGCM" });
+ /*       else {
+            httpGetAsync("http://sujoyghosal-test.apigee.net/rideshare/detachgcmidsfromuser?uuid="
+                + user_id, function (data) {
+                    console.log("Response from attachgcmidtouser: " + data);
+                });
+        }*/
+        //           pushNotification.unregister(app.successHandler, app.errorHandler);
         pushNotification.setApplicationIconBadgeNumber(this.successHandler, 0);
     },   
     // result contains any message sent from the plugin call
     successHandler: function (result) {
-        //    alert('Callback Success! Result = ' + result)
+        console.log('Pushnotification Callback Success! Result = ' + result);
     },
     errorHandler: function (error) {
-        alert(error);
+        alert('Callback Error! Result = ' + error);
     },
     onNotificationGCM: function (e) {
         switch (e.event) {
             case 'registered':
                 if (e.regid.length > 0) {
                     console.log("Regid " + e.regid);                  
- //                   registerDevice(e.regid);
-                    alert("Received GCM ID: " + e.regid);
-                  httpGetAsync("http://sujoyghosal-test.apigee.net/rideshare/attachgcmidtouser?uuid=" 
-                  + user_id + "&gcmid=" + e.regid, function(data){
-                      console.log("Response from attachgcmidtouser: " + data);
-                  });
+                    //                   registerDevice(e.regid);
+                    alert("PUSH Registered");
+                    httpGetAsync("http://sujoyghosal-test.apigee.net/rideshare/attachgcmidtouser?uuid="
+                        + user_id + "&gcmid=" + e.regid, function (data) {
+                            console.log("Response from attachgcmidtouser: " + data);
+                        });
                 }
                 break;
 
@@ -89,10 +96,9 @@ var app = {
     }
 
 };
-function httpGetAsync(theUrl, callback)
-{
+function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
+    xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
     }
@@ -106,7 +112,7 @@ function registerDevice(regid) {
 
     // IMPORTANT! Change the senderID value to match your 
     // Google API project number.
- //   var senderID = "733495752777";
+    //   var senderID = "733495752777";
 
     var client = null;
     console.log("Before Apigee Client constrctor");
@@ -139,12 +145,12 @@ function registerDevice(regid) {
             endpoint: 'devices/' + device_id + '/users/' + user_id
         };
 
-        
+
         client.request(options2, function (err, data) {
             if (err) {
-                console.log("Error"+ err);
+                console.log("Error" + err);
             } else {
-                console.log("Success"+data);
+                console.log("Success" + data);
             }
         });
     };

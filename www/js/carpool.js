@@ -196,6 +196,78 @@ function attachgcmidtouser(req, res) {
         }
     });
 }
+
+var detach_query='';
+app.get('/detachgcmidsfromuser', function(req, res) {
+    
+    detach_query = {
+        type: 'user',
+        uuid: req.param('uuid')
+    };
+	
+    if (loggedIn === null) {
+      logIn(req, res, detachgcmidsfromuser);
+    } else {
+      detachgcmidsfromuser(req, res);
+    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+
+function detachgcmidsfromuser(req, res) {
+   
+  loggedIn.getEntity(detach_query, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+          //  res.send(entity);
+            var gcm_ids = [];
+            entity.set('gcm_ids', gcm_ids);
+            entity.save(function (err) {
+            if (err) {
+                res.jsonp(500, "ERROR");
+                return;
+            }
+            res.send("SUCCESS " + gcm_ids);
+        });
+        }
+    });
+}
+app.get('/updateusersettings', function(req, res) {
+    if (loggedIn === null) {
+      logIn(req, res, updateusersettings);
+    } else {
+      updateusersettings(req, res);
+    }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+
+function updateusersettings(req, res) {
+   
+   var option = {
+       "type": "users",
+       "uuid": req.param('uuid')
+   }
+  loggedIn.getEntity(option, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+          //  res.send(entity);
+            var settings = {
+                'pushon':req.param('pushon'),
+                'pushstarttime':req.param('starttime'),
+                'pushstoptime':req.param('stoptime'),
+            };
+            entity.set('settings', settings);
+            entity.save(function (err) {
+            if (err) {
+                res.jsonp(500, "ERROR");
+                return;
+            }
+            res.send(entity);
+        });
+        }
+    });
+}
 var uuid='';
 var currentcount='';
 var maxcount='';
@@ -347,6 +419,63 @@ function acceptedrides(email, req, res) {
             res.send("You Have No Accepted Rides.");
     });
 }
+var arides_query='';
+app.get('/getpassengersforride', function(req, res) {
+    var uuid = req.param('uuid');
+    
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getpassengersforride(uuid, req, res);
+        });
+    } else {
+        getpassengersforride(uuid, req, res);
+    }
+});
+
+
+function getpassengersforride(uuid, req, res) {
+    var query = {
+        type: 'wiprorideshares',
+        uuid: uuid
+    };
+    loggedIn.getEntity(query, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+            res.send(entity._data.passengers);
+            return;
+        }
+        });
+};
+
+var arides_query='';
+app.get('/getuserbyuuid', function(req, res) {
+    var uuid = req.param('uuid');
+    
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getuserbyuuid(uuid, req, res);
+        });
+    } else {
+        getuserbyuuid(uuid, req, res);
+    }
+});
+
+
+function getuserbyuuid(uuid, req, res) {
+    var query = {
+        type: 'user',
+        uuid: uuid
+    };
+    loggedIn.getEntity(query, function (err, entity) {
+        if (err) {
+            res.send("ERROR");
+        } else {
+            res.send(entity._data);
+            return;
+        }
+        });
+};
 
 
 
@@ -456,6 +585,7 @@ app.get('/createrideshare', function(req, res) {
       'email': req.param('email'),
       'maxcount': req.param('maxcount'),
       'currentcount': '0',
+      'vehicle_type': req.param('vehicle_type'),
       'status': 'active',
       'time': req.param('time'),
       'location': {	

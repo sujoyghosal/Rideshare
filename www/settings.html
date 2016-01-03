@@ -28,8 +28,7 @@
 
                                 <div>
                                     <label>Turn On Push Notification</label>
-                                    <input name="PushToggle" ng-model="settings.pushon" type="checkbox" ng-value="Allow Push Notifications" placeholder="Enable Push"
-                                    class="form-control input-md">
+                                    <input name="PushToggle" ng-model="settings.pushon" type="checkbox" class="form-control input-md" checked>
                                     <br>
                                     <label>Start Notifications From: [HH:mm]</label>
                                     <input id="time" name="time" ng-model="settings.fromtime" ng-minlength="2" type="time" placeholder="Notification Start Time"
@@ -40,9 +39,10 @@
                                     class="form-control input-md" ng-required="true">
                                     <br>
                                 </div>
-                                <input type="button" name="submit" value="SUBMIT" ng-click="SendSettings(settings)">
+                                <input type="button" name="submit" value="SAVE" ng-click="SendSettings(settings)">
                                 <br>
-                                <center/> {{result}}
+                                <center/> {{result}}<br>
+                                <p>SETTINGS WILL TAKE EFFECT NEXT TIME YOU LOGIN.</p>
                                 </p>
                                 <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
                             </fieldset>
