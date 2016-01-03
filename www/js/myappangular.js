@@ -222,7 +222,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         console.log("checkIfPushAllowedNow: received input - " + JSON.stringify(settingsObject));
         if (!settingsObject)
             return true;
-
+        
         if (settingsObject.pushon) {
             var start = new Date(settingsObject.pushstarttime);
             var stop = new Date(settingsObject.pushstoptime);
@@ -231,6 +231,8 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             stop.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
             if (stop < start)
                 stop.setDate(timenow.getDate() + 1);
+            if(stop === start)
+                return true;
             if (timenow < start || timenow > stop) {
                 return false;
             }
