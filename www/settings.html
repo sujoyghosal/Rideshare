@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <title>Wipro Rideshare - Offer Ride</title>
 </head>
@@ -41,10 +42,11 @@
                                 </div>
                                 <input type="button" name="submit" value="SAVE" ng-click="SendSettings(settings)">
                                 <br>
-                                <center/>{{settings}} {{result}}<br>
+                                <i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                                <center/><br> {{result}}<br>
                                 <p>SETTINGS WILL TAKE EFFECT NEXT TIME YOU LOGIN.</p>
                                 </p>
-                                <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                                <center/>
                             </fieldset>
                             <br class='clear'>
                 </form>

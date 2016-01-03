@@ -496,6 +496,8 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         });
     };
     $scope.SendSettings = function (settings) {
+        $scope.result = '';
+        $scope.spinner = true;
         var starttime = new Date(settings.fromtime);
         var stoptime = new Date(settings.totime);
         starttime.setFullYear(1970, 1, 1);
