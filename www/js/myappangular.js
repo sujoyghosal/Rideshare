@@ -224,14 +224,15 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
             return true;
         
         if (settingsObject.pushon) {
-            var start = new Date(settingsObject.pushstarttime);
-            var stop = new Date(settingsObject.pushstoptime);
-            var timenow = new Date();
-            start.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
-            stop.setFullYear(timenow.getFullYear(), timenow.getMonth(), timenow.getDate());
+            
+            var start = new Date();
+            start.setHours(settingsObject.pushstarttimehrs, settingsObject.pushstarttimemin);
+            var stop = new Date();
+            stop.setHours(settingsObject.pushstoptimehrs, settingsObject.pushstoptimemin);
+            var timenow = new Date();          
             if (stop < start)
                 stop.setDate(timenow.getDate() + 1);
-            if(stop === start)
+            if(stop == start)
                 return true;
             if (timenow < start || timenow > stop) {
                 return false;
@@ -498,13 +499,14 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     $scope.SendSettings = function (settings) {
         $scope.result = '';
         $scope.spinner = true;
-        var starttime = new Date(settings.fromtime);
-        var stoptime = new Date(settings.totime);
-        starttime.setFullYear(1970, 1, 1);
-        stoptime.setFullYear(2070, 1, 1);
+        var starttimehrs = new Date(settings.fromtime).getHours();
+        var starttimemin = new Date(settings.fromtime).getMinutes();
+        var stoptimehrs = new Date(settings.totime).getHours();
+        var stoptimemin = new Date(settings.totime).getMinutes();
+
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateusersettings?uuid=" + $scope.uuid + "&starttime=" + starttime
-            + "&stoptime=" + stoptime + "&pushon=" + settings.pushon;
+        var getURL = "http://sujoyghosal-test.apigee.net/rideshare/updateusersettings?uuid=" + $scope.uuid + "&starttimehrs=" + starttimehrs
+            + "&starttimemin=" + starttimemin + "&stoptimehrs=" + stoptimehrs + "&stoptimemin=" + stoptimemin + "&pushon=" + settings.pushon;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
