@@ -37,8 +37,8 @@
             </center>
             <p>
                 <br>
-                <label ng-show="allrides">Sort By:
-                    <select name="sort" ng-model="data.sortby">
+                <label ng-show="false">Sort By:
+                    <select name="sort" ng-model="offeredby">
                         <option value="offeredby">Name</option>
                         <option value="phone_number">Phone</option>
                         <option value="time">Start Time</option>
@@ -46,35 +46,58 @@
                         <option value="to_place">To</option>
                         <option value="currentcount">Filled</option>
                     </select>
-                    <label ng-show="allrides">Search in Rides:
+                    <br>
+                </label>
+                    <label ng-show="allrides">Search Places, Names, Emails, Phone Number etc in Rides:
                         <input ng-model="searchText">
                     </label>
                     <br>
                     <div class="container">
-                        <br><b>{{result}}</b>
+                        <br><b>{{result}}{{}}</b>
                         <table class="table table-bordered" id="ridestable" ng-show="allrides" id="searchTextResults">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>City</th>
-                                    <th>Offered By</th>
-                                    <th>EMail</th>
+                                    <th ng-click="orderByField='offeredby'; reverse = !reverse">Offered By
+                                       <span ng-show="orderByField == 'offeredby'">
+                                        <i class="fa fa-sort-asc" ng-show="!reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="reverse"></i></span></th>
+                                    <th ng-click="orderByField='email'; reverse = !reverse">EMail
+                                        <span ng-show="orderByField == 'email'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Mobile</th>
-                                    <th>Vehicle</th>                             
-                                    <th>Start Time</th>
-                                    <th>From</th>
-                                    <th>To</th>
+                                    <th ng-click="orderByField='vehicle_type'; reverse = !reverse">Vehicle
+                                        <span ng-show="orderByField == 'vehicle_type'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                    <th ng-click="orderByField='time'; reverse = !reverse">Start Time
+                                        <span ng-show="orderByField == 'time'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                    <th ng-click="orderByField='from_place'; reverse = !reverse">From
+                                        <span ng-show="orderByField == 'from_place'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                    <th ng-click="orderByField='to_place'; reverse = !reverse">To
+                                        <span ng-show="orderByField == 'to_place'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Via</th>
-                                    <th>Filled</th>
+                                    <th ng-click="orderByField='currentcount'; reverse = !reverse">Available
+                                        <span ng-show="orderByField == 'currentcount'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Join Ride</th>
                                 </tr>
                             </thead>
-                            <tr ng-repeat="row in cityRides | orderBy : data.sortby | filter:searchText">
+                            <tr ng-repeat="row in cityRides | orderBy : orderByField : reverse| filter:searchText">
                                 <td>{{$index + 1}}</td>
                                 <td>{{row.city}}</td>
                                 <td>{{row.offeredby}}</td>
                                 <td>{{row.email}}</td>
-                                <td>{{row.phone_number}}</td>                                
+                                <td>{{row.phone_number}}</td>
                                 <td>{{row.vehicle_type}}</td>
                                 <td>{{row.time | date: 'short'}}</td>
                                 <td>{{row.from_place}}</td>

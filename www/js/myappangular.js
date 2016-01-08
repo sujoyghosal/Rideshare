@@ -97,6 +97,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     var param_name = '';
     $scope.offererUUID = '';
 
+    $scope.reverseSort =  false;
     var today = new Date().toISOString().slice(0, 10);
     $scope.today = {
         value: today
@@ -154,7 +155,7 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
     function schedulePush(time) {
         window.plugin.notification.local.add({
             date: time,
-            message: 'Your ride offer is 15min from now. Please start.'
+            message: 'Your ride offer is in 15min. Please start.'
         });
     }
 
