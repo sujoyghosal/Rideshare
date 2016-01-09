@@ -51,7 +51,7 @@
                             <td>
                                 <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
                                 <datalist id="dataSourceFrom">
-                                    <option ng-repeat="rest in cityRides">{{rest.from_place}}</option>
+                                    <option ng-repeat="rest in cityRides | unique: 'from_place'">{{rest.from_place}}</option>
                                 </datalist>
                             </td>
                             <td>
@@ -64,7 +64,7 @@
                             <td>
                                 <input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
                                 <datalist id="dataSourceTo">
-                                    <option ng-repeat="rest in cityRides">{{rest.to_place}}</option>
+                                    <option ng-repeat="rest in cityRides | unique: 'to_place'">{{rest.to_place}}</option>
                                 </datalist>
                             </td>
                             <td>
