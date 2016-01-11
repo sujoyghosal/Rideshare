@@ -2,15 +2,16 @@
 <html>
 
 <head>
-      
+
 </head>
 
 <body>
     <center>
         <p align=left>Welcome {{fullname}}!!</p>
-        <p align=left>If you are interested in specific locations or destinations, add that place name here to your point of interest.<br>Whenever anyone creates a ride offer going to that place or starting from that place you will get a notification.</p>
-        
-        
+        <p align=left>If you are interested in specific locations or destinations, add that place name here to your point of interest.
+            <br>Whenever anyone creates a ride offer going to that place or starting from that place you will get a notification.</p>
+
+
         <div ng-app="myApp" ng-controller="RidesCtrl">
             <label for="citySelect">
                 <p/>Select City: </label>
@@ -47,7 +48,8 @@
                         </thead>
                         <tr>
                             <td>
-                                <p>Subscribe for notifications when someone starts from: </p></td>
+                                <p>When someone starts from: </p>
+                            </td>
                             <td>
                                 <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
                                 <datalist id="dataSourceFrom">
@@ -55,12 +57,14 @@
                                 </datalist>
                             </td>
                             <td>
-                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Submit" ng-click="Subscribe(data,'from', login_user)">
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Notify Me" ng-click="Subscribe(data,'from', login_user)">
                                 </button>
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                <p>Subscribe for notifications when someone is going to: </p></td>
+                                <p>When someone is going to: </p>
+                            </td>
                             <td>
                                 <input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
                                 <datalist id="dataSourceTo">
@@ -68,8 +72,10 @@
                                 </datalist>
                             </td>
                             <td>
-                                <input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Submit" ng-click="Subscribe(data, 'to', login_user)">
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Notify Me" ng-click="Subscribe(data, 'to', login_user)">
                                 </button>
+                            </td>
+                        </tr>
                     </div>
                 </table>
                 {{result}}
