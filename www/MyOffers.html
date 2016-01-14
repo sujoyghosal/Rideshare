@@ -2,70 +2,91 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="css/rating.css">
-  <link rel="stylesheet" href="css/offerride.css">
-  <link rel="stylesheet" href="css/responsivetable.css">
+    <link rel="stylesheet" href="css/rating.css">
+    <link rel="stylesheet" href="css/offerride.css">
+    <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
-  <br>
-  <br>
-  
-  <br>
-  <br>
-  <div ng-app="myApp" ng-controller="RidesCtrl">
-    <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
     <br>
-    <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+    <br>
 
-    <p>
-      <p/><b/>{{found}}
-      <br>
-      <br>
-      <label ng-show="allrides">Search in Rides:
-        <input ng-model="searchText">
-      </label>
-      <div class="container">
-      <table class="table table-bordered" ng-show="allrides">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>City</th>
-            <th>Offered By</th>
-            <th>EMail</th>
-            <th>Mobile</th>
-            <th>Vehicle</th>
-            <th>Start Time</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Via</th>
-            <th>Filled</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tr ng-repeat="row in cityRides | orderBy : '-time' | filter:searchText">
-          <td>{{$index + 1}}</td>
-          <td>{{row.city}}</td>
-          <td>{{row.offeredby}}</td>
-          <td>{{row.email}}</td>
-          <td>{{row.phone_number}}</td>
-          <td>{{row.vehicle_type}}</td>
-          <td>{{row.time | date: 'medium'}}</td>
-          <td>{{row.from_place}}</td>
-          <td>{{row.to_place}}</td>
-          <td>{{row.via}}</td>
-          <td ng-controller="FundooCtrl" white-space="nowrap">
-            <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>
-          </td>
-          <td>
-            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
-          </td>
-        </tr>
-      </table>
-      </div>
-    </p>
-  </div>
-  </center>
+    <br>
+    <br>
+    <div ng-app="myApp" ng-controller="RidesCtrl">
+        <button class="btn btn-primary btn-md" ng-click="GetRides('email',login_email)">GET RIDES I OFFERED</button>
+        <br>
+        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+
+        <p>
+            <p/><b/>{{found}}
+            <br>
+            <br>
+            <label ng-show="allrides">Search in Rides:
+                <input ng-model="searchText">
+            </label>
+            <div class="container">
+                <table class="table table-bordered" ng-show="allrides">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>City</th>
+                            <th ng-click="orderByField='offeredby'; reverse = !reverse">Offered By
+                                <span ng-show="orderByField == 'offeredby'">
+                                        <i class="fa fa-sort-asc" ng-show="!reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="reverse"></i></span></th>
+                            <th ng-click="orderByField='email'; reverse = !reverse">EMail
+                                <span ng-show="orderByField == 'email'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th>Mobile</th>
+                            <th ng-click="orderByField='vehicle_type'; reverse = !reverse">Vehicle
+                                <span ng-show="orderByField == 'vehicle_type'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='time'; reverse = !reverse">Start Time
+                                <span ng-show="orderByField == 'time'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='from_place'; reverse = !reverse">From
+                                <span ng-show="orderByField == 'from_place'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='to_place'; reverse = !reverse">To
+                                <span ng-show="orderByField == 'to_place'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th>Via</th>
+                            <th ng-click="orderByField='currentcount'; reverse = !reverse">Available
+                                <span ng-show="orderByField == 'currentcount'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="row in cityRides | orderBy : orderByField : reverse | filter:searchText">
+                        <td>{{$index + 1}}</td>
+                        <td>{{row.city}}</td>
+                        <td>{{row.offeredby}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.phone_number}}</td>
+                        <td>{{row.vehicle_type}}</td>
+                        <td>{{row.time | date: 'medium'}}</td>
+                        <td>{{row.from_place}}</td>
+                        <td>{{row.to_place}}</td>
+                        <td>{{row.via}}</td>
+                        <td ng-controller="FundooCtrl" white-space="nowrap">
+                            <div fundoo-rating rating-value="row.currentcount" max="row.maxcount" readonly="true"></div>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+    </div>
+    </center>
 </body>
 
 </html>
