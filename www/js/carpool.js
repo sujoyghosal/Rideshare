@@ -1,5 +1,4 @@
 var express = require('express');
-var bodyParser = require('body-parser')
 var usergrid = require('usergrid');
 
 
@@ -21,17 +20,10 @@ var allowCrossDomain = function(req, res, next) {
 var app = express();
 app.use(allowCrossDomain);
 //app.use(express.bodyParser());
-//app.use(express.urlencoded());
-//app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.json());
 // Initialize Usergrid
-// parse various different custom JSON types as JSON 
-app.use(bodyParser.json({ type: 'application/*+json' }))
- 
-// parse some custom thing into a Buffer 
-app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
- 
-// parse an HTML body into a string 
-app.use(bodyParser.text({ type: 'text/html' }))
+
 var ug = new usergrid.client({
     'orgName': 'sujoyghosal',
     'appName': 'rideshare',
@@ -94,10 +86,13 @@ function getrideshare(req, res) {
     });
 }
 
-var rides_query='';
+var rides_query=undefined;
+var paramname = '';
+var paramvalue = '';
 app.get('/getrides', function(req, res) {
-    var paramname = req.param('paramname');
-    var paramvalue = req.param('paramvalue');
+
+    paramname = req.param('paramname');
+    paramvalue = req.param('paramvalue');
     rides_query = {
 		type:"wiprorideshares?limit=100", //Required - the type of collection to be retrieved
           qs: {"ql": paramname +"='" + paramvalue + "'"}
@@ -264,8 +259,10 @@ function updateusersettings(req, res) {
           //  res.send(entity);
             var settings = {
                 'pushon':req.param('pushon'),
-                'pushstarttime':req.param('starttime'),
-                'pushstoptime':req.param('stoptime'),
+                'pushstarttimehrs':req.param('starttimehrs'),
+                'pushstoptimehrs':req.param('stoptimehrs'),
+                'pushstarttimemin':req.param('starttimemin'),
+                'pushstoptimemin':req.param('stoptimemin')
             };
             entity.set('settings', settings);
             entity.save(function (err) {

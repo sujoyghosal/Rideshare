@@ -36,7 +36,7 @@ app.config(['$routeProvider',
                 controller: 'RidesCtrl'
             }).
             when('/settings', {
-                templateUrl: 'Settings.html',
+                templateUrl: 'settings.html',
                 controller: 'RidesCtrl'
             }).when('/subscribe', {
                 templateUrl: 'Subscribe.html',
@@ -457,8 +457,10 @@ app.controller('RidesCtrl', function ($scope, $http, $filter, UserService) {
         $scope.spinner = true;
         if (!uuid) {
             $scope.found = "ERROR";
+            console.log("SendPushToUser(uuid, text): No UUID received");
             return;
         }
+        console.log("Attempting to send push to uuid: " + uuid + " with text: " + text);    
         //first create group with id=<city>-<place>
         var getURL = "http://sujoyghosal-test.apigee.net/rideshare/getuserbyuuid?uuid=" + uuid.trim();
         getURL = encodeURI(getURL);

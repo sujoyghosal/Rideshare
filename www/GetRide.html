@@ -92,7 +92,7 @@
                                     <th>Join Ride</th>
                                 </tr>
                             </thead>
-                            <tr ng-repeat="row in cityRides | orderBy : orderByField : reverse| filter:searchText">
+                            <tr ng-repeat="row in cityRides | orderBy : orderByField : reverse| filter:searchText" ng-show="row.email != login_email">
                                 <td>{{$index + 1}}</td>
                                 <td>{{row.city}}</td>
                                 <td>{{row.offeredby}}</td>
