@@ -10,7 +10,7 @@
     <center>
 
         <p align=left>Welcome {{fullname}}</p>
-        <div ng-app="myApp" ng-controller="RidesCtrl">
+        <div ng-app="myApp" ng-controller="RidesCtrl" ng-init="orderByField='time'">
             <label for="citySelect">
                 <p/>Select City: </label>
             <br>
@@ -59,40 +59,40 @@
                                 <tr>
                                     <th>#</th>
                                     <th>City</th>
-                                    <th ng-click="orderByField='offeredby'; reverse = !reverse">Offered By
+                                    <th ng-click="orderByField='offeredby'; reverse = !reverse" nowrap>Offered By
                                        <span ng-show="orderByField == 'offeredby'">
                                         <i class="fa fa-sort-asc" ng-show="!reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="reverse"></i></span></th>
-                                    <th ng-click="orderByField='email'; reverse = !reverse">EMail
+                                    <th ng-click="orderByField='email'; reverse = !reverse" nowrap>EMail
                                         <span ng-show="orderByField == 'email'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Mobile</th>
-                                    <th ng-click="orderByField='vehicle_type'; reverse = !reverse">Vehicle
+                                    <th ng-click="orderByField='vehicle_type'; reverse = !reverse" nowrap>Vehicle
                                         <span ng-show="orderByField == 'vehicle_type'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                    <th ng-click="orderByField='time'; reverse = !reverse">Start Time
+                                    <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Start Time
                                         <span ng-show="orderByField == 'time'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                    <th ng-click="orderByField='from_place'; reverse = !reverse">From
+                                    <th ng-click="orderByField='from_place'; reverse = !reverse" nowrap>From
                                         <span ng-show="orderByField == 'from_place'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                    <th ng-click="orderByField='to_place'; reverse = !reverse">To
+                                    <th ng-click="orderByField='to_place'; reverse = !reverse" nowrap>To
                                         <span ng-show="orderByField == 'to_place'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Via</th>
-                                    <th ng-click="orderByField='currentcount'; reverse = !reverse">Available
+                                    <th ng-click="orderByField='currentcount'; reverse = !reverse" nowrap>Available
                                         <span ng-show="orderByField == 'currentcount'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                     <th>Join Ride</th>
                                 </tr>
                             </thead>
-                            <tr ng-repeat="row in cityRides | orderBy : orderByField : reverse| filter:searchText" ng-show="row.email != login_email">
+                            <tr ng-repeat="row in cityRides | orderBy : orderByField : !reverse| filter:searchText" ng-show="row.email != login_email">
                                 <td>{{$index + 1}}</td>
                                 <td>{{row.city}}</td>
                                 <td>{{row.offeredby}}</td>
