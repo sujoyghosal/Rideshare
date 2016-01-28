@@ -47,9 +47,7 @@
                             </tr>
                         </thead>
                         <tr>
-                            <td>
-                                <p>When someone starts from: </p>
-                            </td>
+                            <td nowrap>Notify Me For Rides Created That Starts From: </td>
                             <td>
                                 <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
                                 <datalist id="dataSourceFrom">
@@ -57,14 +55,12 @@
                                 </datalist>
                             </td>
                             <td>
-                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Notify Me" ng-click="Subscribe(data,'from', login_user)">
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data,'from', login_user)">
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <p>When someone is going to: </p>
-                            </td>
+                            <td nowrap>Notify Me For Rides Created That Goes To:</td>
                             <td>
                                 <input type="text" ng-model="data.to" class="order_input" list="dataSourceTo" placeholder="To Place" />
                                 <datalist id="dataSourceTo">
@@ -72,7 +68,7 @@
                                 </datalist>
                             </td>
                             <td>
-                                <input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Notify Me" ng-click="Subscribe(data, 'to', login_user)">
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitFrom" value="Subscribe" ng-click="Subscribe(data, 'to', login_user)">
                                 </button>
                             </td>
                         </tr>
